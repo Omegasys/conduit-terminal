@@ -1,13 +1,12 @@
-//! Conduit pane management.
-//!
-//! A pane is a logical terminal viewport inside a tab. Panes own layout
-//! relationships and references to terminal sessions, while the terminal
-//! core owns the actual PTY and process lifecycle.
-
 pub mod layout;
 pub mod manager;
 pub mod pane;
+pub mod resize;
 pub mod split;
+pub mod state;
+pub mod swap;
+pub mod synchronization;
+pub mod zoom;
 
 pub use layout::{
     LayoutNode,
@@ -25,7 +24,34 @@ pub use pane::{
     PaneOrientation,
 };
 
+pub use resize::{
+    PaneResize,
+    ResizeDirection,
+};
+
 pub use split::{
+    PaneSplit,
     SplitDirection,
     SplitRatio,
+};
+
+pub use state::{
+    PaneCollectionState,
+    PaneState,
+};
+
+pub use swap::{
+    swap,
+    swap_with_active,
+};
+
+pub use synchronization::{
+    PaneSynchronization,
+    SynchronizationGroup,
+    SynchronizationMode,
+};
+
+pub use zoom::{
+    PaneZoom,
+    ZoomState,
 };
