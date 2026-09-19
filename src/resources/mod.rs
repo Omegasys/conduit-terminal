@@ -24,3 +24,28 @@ pub use resource::{
     ResourceMetadata,
     ResourceState,
 };
+pub mod discovery;
+pub mod manager;
+pub mod manifest;
+pub mod paths;
+pub mod profile;
+pub mod registry;
+pub mod resource;
+pub mod theme;
+pub mod validation;
+pub mod workspace;
+
+pub use manifest::ResourceManifest;
+pub use profile::{Profile, ProfileValue};
+pub use theme::{Theme, ThemeColors, ThemePalette};
+pub use validation::{
+    ResourceValidator,
+    ValidationIssue,
+    ValidationResult,
+    ValidationSeverity,
+};
+pub use workspace::{
+    WorkspaceLayout,
+    WorkspaceResource,
+    WorkspaceStartup,
+};
