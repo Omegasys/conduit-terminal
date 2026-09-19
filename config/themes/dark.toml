@@ -1,0 +1,80 @@
+[theme]
+id = "dark"
+name = "Conduit Dark"
+version = "1.0"
+description = "A deep neutral dark theme designed for extended terminal use."
+inherits = ""
+
+[ui]
+background = "#121212"
+foreground = "#E0E0E0"
+panel_background = "#181818"
+panel_foreground = "#D0D0D0"
+border = "#303030"
+accent = "#82AAFF"
+selection = "#2A3B5C"
+selection_foreground = "#FFFFFF"
+focus = "#82AAFF"
+inactive = "#707070"
+
+[terminal]
+background = "#121212"
+foreground = "#E0E0E0"
+cursor = "#FFFFFF"
+cursor_text = "#121212"
+selection = "#2A3B5C"
+selection_foreground = "#FFFFFF"
+
+[ansi.normal]
+black = "#171717"
+red = "#E06C75"
+green = "#98C379"
+yellow = "#E5C07B"
+blue = "#61AFEF"
+magenta = "#C678DD"
+cyan = "#56B6C2"
+white = "#ABB2BF"
+
+[ansi.bright]
+black = "#5C6370"
+red = "#E06C75"
+green = "#98C379"
+yellow = "#E5C07B"
+blue = "#61AFEF"
+magenta = "#C678DD"
+cyan = "#56B6C2"
+white = "#FFFFFF"
+
+[status]
+background = "#181818"
+foreground = "#D0D0D0"
+accent = "#82AAFF"
+warning = "#E5C07B"
+error = "#E06C75"
+success = "#98C379"
+
+[tab]
+active_background = "#121212"
+active_foreground = "#FFFFFF"
+inactive_background = "#202020"
+inactive_foreground = "#808080"
+activity = "#82AAFF"
+
+[scrollbar]
+track = "#121212"
+thumb = "#303030"
+hover = "#454545"
+
+[syntax]
+comment = "#5C6370"
+keyword = "#C678DD"
+string = "#98C379"
+number = "#D19A66"
+function = "#61AFEF"
+type = "#56B6C2"
+constant = "#E5C07B"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = false
