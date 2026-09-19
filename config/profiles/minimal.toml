@@ -1,0 +1,81 @@
+# Conduit minimal profile.
+# Intended for low-overhead environments and simple terminal use.
+
+[application]
+confirm_close = false
+restore_session = false
+restore_workspace = false
+show_notifications = false
+
+[terminal]
+scrollback_lines = 2000
+cursor_style = "block"
+cursor_blink = false
+bell = "none"
+bracketed_paste = true
+mouse_reporting = false
+
+[shell]
+default = "auto"
+login_shell = true
+integration = false
+history_integration = false
+
+[ui]
+show_menu_bar = false
+show_toolbar = false
+show_sidebar = false
+show_status_bar = false
+show_tab_bar = true
+show_command_palette = true
+animations = false
+compact_mode = true
+
+[appearance]
+theme = "default"
+font_family = "monospace"
+font_size = 12.0
+ligatures = false
+
+[rendering]
+backend = "auto"
+gpu_acceleration = true
+software_fallback = true
+vsync = true
+damage_tracking = true
+
+[clipboard]
+enabled = true
+confirm_paste = true
+history_enabled = false
+redact_sensitive_data = true
+
+[security]
+profile = "minimal"
+sandbox = true
+untrusted_output_protection = true
+hyperlink_protection = true
+clipboard_protection = true
+plugin_permission_checks = true
+resource_validation = true
+payload_limits = true
+
+[plugins]
+enabled = false
+require_manifest = true
+require_permissions = true
+sandbox = true
+auto_enable = false
+
+[diagnostics]
+enabled = true
+log_level = "warn"
+flow_view = false
+event_history = false
+
+[accessibility]
+screen_reader = "auto"
+high_contrast = false
+large_text = false
+reduced_motion = true
+keyboard_navigation = true
