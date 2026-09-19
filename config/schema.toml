@@ -1,0 +1,456 @@
+# Conduit configuration schema.
+#
+# This file describes configuration metadata.
+# Runtime validation is ultimately performed by the Conduit
+# configuration engine and its typed Rust configuration model.
+
+[schema]
+version = "1.0"
+format = "toml"
+strict = true
+
+# ---------------------------------------------------------------------------
+# Application
+# ---------------------------------------------------------------------------
+
+[settings.application.name]
+type = "string"
+default = "Conduit"
+
+[settings.application.confirm_close]
+type = "boolean"
+default = true
+
+[settings.application.restore_session]
+type = "boolean"
+default = false
+
+[settings.application.restore_workspace]
+type = "boolean"
+default = false
+
+[settings.application.show_notifications]
+type = "boolean"
+default = true
+
+[settings.application.safe_mode]
+type = "boolean"
+default = false
+security_sensitive = true
+
+# ---------------------------------------------------------------------------
+# Terminal
+# ---------------------------------------------------------------------------
+
+[settings.terminal.scrollback_lines]
+type = "integer"
+minimum = 0
+maximum = 10000000
+default = 10000
+
+[settings.terminal.scroll_on_output]
+type = "boolean"
+default = true
+
+[settings.terminal.scroll_on_keypress]
+type = "boolean"
+default = true
+
+[settings.terminal.cursor_style]
+type = "enum"
+values = ["block", "underline", "bar"]
+default = "block"
+
+[settings.terminal.cursor_blink]
+type = "boolean"
+default = true
+
+[settings.terminal.cursor_blink_interval_ms]
+type = "integer"
+minimum = 50
+maximum = 5000
+default = 500
+
+[settings.terminal.bell]
+type = "enum"
+values = ["none", "visual", "audible", "both"]
+default = "visual"
+
+[settings.terminal.audible_bell]
+type = "boolean"
+default = false
+
+[settings.terminal.bracketed_paste]
+type = "boolean"
+default = true
+
+[settings.terminal.mouse_reporting]
+type = "boolean"
+default = true
+
+[settings.terminal.alternate_screen]
+type = "boolean"
+default = true
+
+[settings.terminal.unicode]
+type = "boolean"
+default = true
+
+[settings.terminal.default_encoding]
+type = "string"
+default = "utf-8"
+
+# ---------------------------------------------------------------------------
+# Shell
+# ---------------------------------------------------------------------------
+
+[settings.shell.default]
+type = "string"
+default = "auto"
+
+[settings.shell.login_shell]
+type = "boolean"
+default = true
+
+[settings.shell.inherit_environment]
+type = "boolean"
+default = true
+
+[settings.shell.working_directory]
+type = "string"
+default = "inherit"
+
+[settings.shell.integration]
+type = "boolean"
+default = true
+
+[settings.shell.history_integration]
+type = "boolean"
+default = true
+
+# ---------------------------------------------------------------------------
+# UI
+# ---------------------------------------------------------------------------
+
+[settings.ui.show_menu_bar]
+type = "boolean"
+default = true
+
+[settings.ui.show_toolbar]
+type = "boolean"
+default = true
+
+[settings.ui.show_sidebar]
+type = "boolean"
+default = true
+
+[settings.ui.show_status_bar]
+type = "boolean"
+default = true
+
+[settings.ui.show_tab_bar]
+type = "boolean"
+default = true
+
+[settings.ui.show_command_palette]
+type = "boolean"
+default = true
+
+[settings.ui.compact_mode]
+type = "boolean"
+default = false
+
+[settings.ui.animations]
+type = "boolean"
+default = true
+
+[settings.ui.reduced_motion]
+type = "boolean"
+default = false
+
+[settings.ui.sidebar.position]
+type = "enum"
+values = ["left", "right"]
+default = "left"
+
+[settings.ui.sidebar.width]
+type = "integer"
+minimum = 120
+maximum = 1000
+default = 280
+
+[settings.ui.sidebar.collapsible]
+type = "boolean"
+default = true
+
+# ---------------------------------------------------------------------------
+# Appearance
+# ---------------------------------------------------------------------------
+
+[settings.appearance.theme]
+type = "resource"
+resource_type = "theme"
+default = "default"
+
+[settings.appearance.font_family]
+type = "string"
+default = "monospace"
+
+[settings.appearance.font_size]
+type = "float"
+minimum = 4.0
+maximum = 128.0
+default = 12.0
+
+[settings.appearance.line_height]
+type = "float"
+minimum = 0.5
+maximum = 4.0
+default = 1.0
+
+[settings.appearance.letter_spacing]
+type = "float"
+minimum = -10.0
+maximum = 20.0
+default = 0.0
+
+[settings.appearance.padding]
+type = "integer"
+minimum = 0
+maximum = 100
+default = 8
+
+[settings.appearance.transparency]
+type = "float"
+minimum = 0.1
+maximum = 1.0
+default = 1.0
+
+[settings.appearance.ligatures]
+type = "boolean"
+default = true
+
+# ---------------------------------------------------------------------------
+# Rendering
+# ---------------------------------------------------------------------------
+
+[settings.rendering.backend]
+type = "enum"
+values = ["auto", "gpu", "software", "opengl", "vulkan"]
+default = "auto"
+
+[settings.rendering.gpu_acceleration]
+type = "boolean"
+default = true
+
+[settings.rendering.software_fallback]
+type = "boolean"
+default = true
+
+[settings.rendering.vsync]
+type = "boolean"
+default = true
+
+[settings.rendering.target_fps]
+type = "integer"
+minimum = 30
+maximum = 360
+default = 60
+
+[settings.rendering.damage_tracking]
+type = "boolean"
+default = true
+
+[settings.rendering.glyph_cache]
+type = "boolean"
+default = true
+
+[settings.rendering.image_cache]
+type = "boolean"
+default = true
+
+# ---------------------------------------------------------------------------
+# Clipboard
+# ---------------------------------------------------------------------------
+
+[settings.clipboard.enabled]
+type = "boolean"
+default = true
+
+[settings.clipboard.confirm_paste]
+type = "boolean"
+default = false
+security_sensitive = true
+
+[settings.clipboard.history_enabled]
+type = "boolean"
+default = false
+security_sensitive = true
+
+[settings.clipboard.history_limit]
+type = "integer"
+minimum = 0
+maximum = 100000
+default = 100
+
+[settings.clipboard.allow_terminal_read]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.clipboard.allow_terminal_write]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.clipboard.redact_sensitive_data]
+type = "boolean"
+default = true
+security_sensitive = true
+
+# ---------------------------------------------------------------------------
+# Security
+# ---------------------------------------------------------------------------
+
+[settings.security.profile]
+type = "enum"
+values = ["standard", "minimal", "hardened", "paranoid", "custom"]
+default = "standard"
+security_sensitive = true
+
+[settings.security.sandbox]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.untrusted_output_protection]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.hyperlink_protection]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.clipboard_protection]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.plugin_permission_checks]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.resource_validation]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.payload_limits]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.security.sensitive_data_redaction]
+type = "boolean"
+default = true
+security_sensitive = true
+
+# ---------------------------------------------------------------------------
+# Plugins
+# ---------------------------------------------------------------------------
+
+[settings.plugins.enabled]
+type = "boolean"
+default = true
+
+[settings.plugins.require_manifest]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.plugins.require_permissions]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.plugins.sandbox]
+type = "boolean"
+default = true
+security_sensitive = true
+
+[settings.plugins.auto_enable]
+type = "boolean"
+default = false
+security_sensitive = true
+
+# ---------------------------------------------------------------------------
+# Diagnostics
+# ---------------------------------------------------------------------------
+
+[settings.diagnostics.enabled]
+type = "boolean"
+default = true
+
+[settings.diagnostics.log_level]
+type = "enum"
+values = ["trace", "debug", "info", "warn", "error"]
+default = "info"
+
+[settings.diagnostics.flow_view]
+type = "boolean"
+default = false
+
+[settings.diagnostics.event_history]
+type = "boolean"
+default = true
+
+[settings.diagnostics.event_history_limit]
+type = "integer"
+minimum = 0
+maximum = 1000000
+default = 1000
+
+# ---------------------------------------------------------------------------
+# Accessibility
+# ---------------------------------------------------------------------------
+
+[settings.accessibility.screen_reader]
+type = "enum"
+values = ["auto", "enabled", "disabled"]
+default = "auto"
+
+[settings.accessibility.high_contrast]
+type = "boolean"
+default = false
+
+[settings.accessibility.large_text]
+type = "boolean"
+default = false
+
+[settings.accessibility.focus_indicators]
+type = "boolean"
+default = true
+
+[settings.accessibility.reduced_motion]
+type = "boolean"
+default = false
+
+[settings.accessibility.keyboard_navigation]
+type = "boolean"
+default = true
+
+[settings.accessibility.audible_notifications]
+type = "boolean"
+default = false
+
+# ---------------------------------------------------------------------------
+# Experimental
+# ---------------------------------------------------------------------------
+
+[settings.experimental.enabled]
+type = "boolean"
+default = false
+security_sensitive = true
