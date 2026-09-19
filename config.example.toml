@@ -1,0 +1,790 @@
+# Conduit Configuration
+
+#
+
+# Copy this file to:
+
+# ~/.config/conduit/config.toml
+
+#
+
+# Conduit uses the same configuration engine for the GUI, TUI, CLI,
+
+# and configuration editor.
+
+[general]
+
+# Application startup mode.
+
+# Valid examples: "full", "minimal", "terminal_only", "fullscreen"
+
+mode = "full"
+
+# Automatically restore the previous application state.
+
+restore_session = true
+
+# Automatically restore windows, tabs, panes, and workspaces.
+
+restore_workspaces = true
+
+# Check resource directories for changes while Conduit is running.
+
+watch_resources = true
+
+# Apply supported configuration changes without restarting Conduit.
+
+live_reload = true
+
+[window]
+
+# Start maximized.
+
+maximized = false
+
+# Remember window size.
+
+remember_size = true
+
+# Remember window position.
+
+remember_position = true
+
+# Show the menu bar.
+
+show_menu_bar = true
+
+# Show the toolbar.
+
+show_toolbar = true
+
+# Show the sidebar.
+
+show_sidebar = true
+
+# Show the status bar.
+
+show_status_bar = true
+
+[window.size]
+
+width = 1200
+height = 800
+
+[terminal]
+
+# Default shell.
+
+# Leave empty to use the user's configured login shell.
+
+shell = ""
+
+# Scrollback line count.
+
+scrollback_lines = 10000
+
+# Automatically scroll when new output arrives.
+
+scroll_on_output = true
+
+# Allow hyperlinks emitted by terminal applications.
+
+allow_hyperlinks = true
+
+# Enable bracketed paste support.
+
+bracketed_paste = true
+
+# Warn before pasting large amounts of text.
+
+large_paste_warning = true
+
+# Number of lines considered a large paste.
+
+large_paste_threshold = 50
+
+[cursor]
+
+# Cursor style.
+
+# Examples: "block", "beam", "underline"
+
+style = "block"
+
+# Blink the cursor.
+
+blink = true
+
+# Cursor blink interval in milliseconds.
+
+blink_interval_ms = 500
+
+[font]
+
+# Font family.
+
+family = "monospace"
+
+# Font size in points.
+
+size = 12.0
+
+# Enable font ligatures.
+
+ligatures = true
+
+[colors]
+
+# Color theme identifier.
+
+theme = "default"
+
+[theme]
+
+# Automatically discover new theme files.
+
+auto_discover = true
+
+# Automatically reload changed theme files.
+
+live_reload = true
+
+# Keep the active theme if a replacement resource is invalid.
+
+preserve_on_error = true
+
+[resources]
+
+# Enable automatic resource discovery.
+
+auto_discover = true
+
+# Watch resource directories for changes.
+
+watch = true
+
+# Reload resources without restarting the application when possible.
+
+live_reload = true
+
+# User resources override system resources.
+
+user_precedence = true
+
+[resources.themes]
+
+# User theme directory.
+
+user_path = "~/.config/conduit/themes"
+
+# Optional local theme directory.
+
+local_path = "~/.local/share/conduit/themes"
+
+# System theme directory.
+
+system_path = "/usr/share/conduit/themes"
+
+[resources.profiles]
+
+# User profile directory.
+
+user_path = "~/.config/conduit/profiles"
+
+# Optional local profile directory.
+
+local_path = "~/.local/share/conduit/profiles"
+
+# System profile directory.
+
+system_path = "/usr/share/conduit/profiles"
+
+[resources.workspaces]
+
+# User workspace directory.
+
+user_path = "~/.config/conduit/workspaces"
+
+# Optional local workspace directory.
+
+local_path = "~/.local/share/conduit/workspaces"
+
+# System workspace directory.
+
+system_path = "/usr/share/conduit/workspaces"
+
+[profiles]
+
+# Default profile.
+
+default = "default"
+
+# Automatically reload changed profiles.
+
+live_reload = true
+
+[workspace]
+
+# Workspace used when no workspace is explicitly selected.
+
+default = "default"
+
+# Automatically restore workspace state.
+
+restore = true
+
+# Save workspace changes automatically.
+
+auto_save = true
+
+[tabs]
+
+# Show tab bar.
+
+show = true
+
+# Allow tab reordering.
+
+allow_reordering = true
+
+# Show tab icons.
+
+show_icons = true
+
+# Restore tabs after restarting Conduit.
+
+restore = true
+
+[panes]
+
+# Allow pane splitting.
+
+splitting = true
+
+# Allow pane synchronization.
+
+synchronization = true
+
+# Allow pane zooming.
+
+zoom = true
+
+# Restore pane layouts.
+
+restore_layout = true
+
+[search]
+
+# Case-sensitive search by default.
+
+case_sensitive = false
+
+# Whole-word matching by default.
+
+whole_word = false
+
+# Allow regular expressions.
+
+regex = true
+
+# Search terminal scrollback.
+
+scrollback = true
+
+# Search command history.
+
+history = true
+
+# Search terminal recordings.
+
+recordings = true
+
+[history]
+
+# Integrate with the shell's native history.
+
+shell_integration = true
+
+# Maintain Conduit-specific command metadata.
+
+metadata = true
+
+# Store Conduit history metadata here.
+
+data_path = "~/.local/share/conduit/history"
+
+# Automatically index supported shell history.
+
+index_shell_history = true
+
+# Enable optional sensitive-data redaction.
+
+redaction = true
+
+# Do not store commands explicitly marked as sensitive.
+
+ignore_sensitive = true
+
+[history.bash]
+
+# Bash's native history file.
+
+path = "~/.bash_history"
+
+[history.zsh]
+
+# Zsh history file.
+
+path = "~/.zsh_history"
+
+[history.fish]
+
+# Fish history directory.
+
+path = "~/.local/share/fish"
+
+[history.powershell]
+
+# Leave empty to use PowerShell's default history location.
+
+path = ""
+
+[clipboard]
+
+# Enable clipboard history.
+
+history = true
+
+# Maximum clipboard history entries.
+
+history_size = 100
+
+# Warn before potentially dangerous multiline pastes.
+
+paste_protection = true
+
+# Detect potentially sensitive clipboard contents.
+
+sensitive_data_detection = true
+
+# Warn before very large pastes.
+
+large_paste_warning = true
+
+[renderer]
+
+# Rendering backend.
+
+# Examples: "auto", "gpu", "software", "opengl", "vulkan"
+
+backend = "auto"
+
+# Prefer GPU acceleration.
+
+gpu_acceleration = true
+
+# Enable display scaling.
+
+scaling = true
+
+# Enable image rendering.
+
+images = true
+
+[renderer.wayland]
+
+enabled = true
+
+[renderer.x11]
+
+enabled = true
+
+[graphics]
+
+# Sixel graphics.
+
+sixel = true
+
+# Kitty graphics protocol.
+
+kitty = true
+
+# iTerm2 image protocol.
+
+iterm2 = true
+
+[protocols]
+
+# ANSI terminal support.
+
+ansi = true
+
+# VT100 support.
+
+vt100 = true
+
+# VT220 support.
+
+vt220 = true
+
+# VT320 support.
+
+vt320 = true
+
+# VT420 support.
+
+vt420 = true
+
+# VT520 support.
+
+vt520 = true
+
+# xterm compatibility.
+
+xterm = true
+
+# OSC sequences.
+
+osc = true
+
+# CSI sequences.
+
+csi = true
+
+# DCS sequences.
+
+dcs = true
+
+# DEC sequences.
+
+dec = true
+
+# SGR sequences.
+
+sgr = true
+
+[shell]
+
+# Enable shell integration.
+
+integration = true
+
+# Detect command boundaries.
+
+command_boundaries = true
+
+# Track command duration.
+
+command_duration = true
+
+# Track command exit status.
+
+command_status = true
+
+# Track current working directory.
+
+directory_tracking = true
+
+[connections]
+
+# Enable local sessions.
+
+local = true
+
+# Enable SSH support.
+
+ssh = true
+
+# Enable serial connections.
+
+serial = true
+
+# Enable container connections.
+
+containers = true
+
+[remote]
+
+# Enable SSH integration.
+
+ssh = true
+
+# Enable SFTP.
+
+sftp = true
+
+# Enable SCP.
+
+scp = true
+
+# Enable forwarding support.
+
+forwarding = true
+
+# Use the user's known_hosts configuration.
+
+known_hosts = true
+
+[multiplexer]
+
+# Enable integration with external multiplexers.
+
+enabled = true
+
+# Detect tmux sessions.
+
+tmux = true
+
+# Detect GNU Screen sessions.
+
+screen = true
+
+# Detect Zellij sessions.
+
+zellij = true
+
+[recording]
+
+# Enable terminal recording.
+
+enabled = true
+
+# Automatically record sessions.
+
+auto_record = false
+
+# Store recordings here.
+
+path = "~/.local/share/conduit/recordings"
+
+# Compress recordings.
+
+compression = true
+
+# Store recording metadata.
+
+metadata = true
+
+# Enable privacy controls.
+
+privacy_controls = true
+
+[notifications]
+
+# Desktop notifications.
+
+desktop = true
+
+# Terminal bell.
+
+bell = true
+
+# Visual notification effects.
+
+visual = true
+
+# Notify when a background command finishes.
+
+activity = true
+
+[accessibility]
+
+# Screen reader integration.
+
+screen_reader = true
+
+# High contrast support.
+
+high_contrast = false
+
+# Font scaling support.
+
+font_scaling = true
+
+# Keyboard-only navigation.
+
+keyboard_navigation = true
+
+# Reduced motion.
+
+reduced_motion = false
+
+[security]
+
+# Security profile.
+
+# Examples: "standard", "minimal", "hardened", "safe", "custom"
+
+profile = "standard"
+
+# Restrict plugin permissions.
+
+plugin_permissions = true
+
+# Enable plugin sandboxing where supported.
+
+plugin_sandbox = true
+
+# Protect clipboard operations.
+
+clipboard_protection = true
+
+# Protect potentially dangerous hyperlinks.
+
+hyperlink_protection = true
+
+# Restrict potentially dangerous terminal escape sequences.
+
+escape_sequence_protection = true
+
+# Enable security auditing.
+
+audit = true
+
+[plugins]
+
+# Enable plugins.
+
+enabled = true
+
+# Automatically discover plugins.
+
+auto_discover = true
+
+# Require permission checks.
+
+permission_checks = true
+
+# Enable plugin sandboxing.
+
+sandbox = true
+
+# Automatically load plugins.
+
+auto_load = true
+
+[diagnostics]
+
+# Enable diagnostics collection.
+
+enabled = true
+
+# Track performance information.
+
+performance = true
+
+# Track renderer information.
+
+renderer = true
+
+# Track GPU information.
+
+gpu = true
+
+# Track PTY information.
+
+pty = true
+
+# Track plugin information.
+
+plugins = true
+
+# Track resource discovery.
+
+resources = true
+
+# Store diagnostic data here.
+
+path = "~/.local/share/conduit/diagnostics"
+
+[flow_view]
+
+# Enable Flow View.
+
+enabled = true
+
+# Show shell-to-renderer flow.
+
+show_terminal_flow = true
+
+# Show event flow.
+
+show_events = true
+
+# Show configuration flow.
+
+show_configuration = true
+
+# Show process information.
+
+show_processes = true
+
+# Show PTYs.
+
+show_ptys = true
+
+# Update Flow View continuously.
+
+live = true
+
+[ipc]
+
+# Enable Conduit IPC.
+
+enabled = true
+
+# Automatically create an IPC endpoint.
+
+auto_start = true
+
+# IPC protocol.
+
+protocol = "json"
+
+[logging]
+
+# Log level.
+
+# Examples: "error", "warn", "info", "debug", "trace"
+
+level = "info"
+
+# Enable structured logging.
+
+structured = true
+
+# Write logs to the application data directory.
+
+file_logging = true
+
+[modes.minimal]
+
+# Disable optional UI elements in minimal mode.
+
+toolbar = false
+sidebar = false
+status_bar = false
+animations = false
+
+[modes.terminal_only]
+
+# Terminal-only mode removes nonessential interface components.
+
+menu_bar = false
+toolbar = false
+sidebar = false
+status_bar = false
+
+[modes.safe]
+
+# Safe mode disables optional components that may be responsible for problems.
+
+plugins = false
+custom_resources = false
+experimental_features = false
+
+[experimental]
+
+# Experimental functionality is disabled by default.
+
+enabled = false
