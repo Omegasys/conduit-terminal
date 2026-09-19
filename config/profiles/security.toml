@@ -1,0 +1,69 @@
+# Conduit security profile.
+# Intended for users who want stronger security defaults.
+
+[application]
+confirm_close = true
+restore_session = false
+restore_workspace = false
+
+[terminal]
+scrollback_lines = 5000
+cursor_style = "block"
+cursor_blink = false
+bracketed_paste = true
+mouse_reporting = true
+
+[shell]
+default = "auto"
+login_shell = true
+integration = true
+history_integration = true
+
+[clipboard]
+enabled = true
+confirm_paste = true
+history_enabled = false
+allow_terminal_read = false
+allow_terminal_write = true
+redact_sensitive_data = true
+
+[security]
+profile = "hardened"
+sandbox = true
+untrusted_output_protection = true
+hyperlink_protection = true
+clipboard_protection = true
+plugin_permission_checks = true
+resource_validation = true
+payload_limits = true
+sensitive_data_redaction = true
+
+[security.hyperlinks]
+allow_http = false
+allow_https = true
+allow_file = false
+allow_ssh = false
+confirm_external = true
+
+[plugins]
+enabled = false
+require_manifest = true
+require_permissions = true
+sandbox = true
+auto_enable = false
+
+[remote]
+enabled = true
+ssh_enabled = true
+remote_clipboard = false
+remote_notifications = false
+connection_timeout_seconds = 30
+
+[diagnostics]
+enabled = true
+log_level = "warn"
+flow_view = false
+event_history = false
+
+[experimental]
+enabled = false
