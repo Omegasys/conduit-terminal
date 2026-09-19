@@ -1,0 +1,80 @@
+[theme]
+id = "light"
+name = "Conduit Light"
+version = "1.0"
+description = "A clean light theme for bright environments."
+inherits = ""
+
+[ui]
+background = "#FFFFFF"
+foreground = "#24292F"
+panel_background = "#F6F8FA"
+panel_foreground = "#24292F"
+border = "#D0D7DE"
+accent = "#0969DA"
+selection = "#B6D7FF"
+selection_foreground = "#000000"
+focus = "#0969DA"
+inactive = "#6E7781"
+
+[terminal]
+background = "#FFFFFF"
+foreground = "#24292F"
+cursor = "#000000"
+cursor_text = "#FFFFFF"
+selection = "#B6D7FF"
+selection_foreground = "#000000"
+
+[ansi.normal]
+black = "#24292F"
+red = "#CF222E"
+green = "#116329"
+yellow = "#9A6700"
+blue = "#0969DA"
+magenta = "#8250DF"
+cyan = "#1B7C83"
+white = "#F6F8FA"
+
+[ansi.bright]
+black = "#57606A"
+red = "#A40E26"
+green = "#1A7F37"
+yellow = "#7D4E00"
+blue = "#0550AE"
+magenta = "#6639BA"
+cyan = "#0E7490"
+white = "#FFFFFF"
+
+[status]
+background = "#F6F8FA"
+foreground = "#24292F"
+accent = "#0969DA"
+warning = "#9A6700"
+error = "#CF222E"
+success = "#1A7F37"
+
+[tab]
+active_background = "#FFFFFF"
+active_foreground = "#24292F"
+inactive_background = "#F6F8FA"
+inactive_foreground = "#6E7781"
+activity = "#0969DA"
+
+[scrollbar]
+track = "#FFFFFF"
+thumb = "#D0D7DE"
+hover = "#AFB8C1"
+
+[syntax]
+comment = "#6E7781"
+keyword = "#8250DF"
+string = "#0A3069"
+number = "#0550AE"
+function = "#8250DF"
+type = "#953800"
+constant = "#CF222E"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = false
