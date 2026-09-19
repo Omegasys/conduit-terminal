@@ -1,0 +1,80 @@
+[theme]
+id = "gruvbox"
+name = "Gruvbox"
+version = "1.0"
+description = "A warm retro terminal theme inspired by Gruvbox."
+inherits = ""
+
+[ui]
+background = "#282828"
+foreground = "#EBDBB2"
+panel_background = "#3C3836"
+panel_foreground = "#EBDBB2"
+border = "#504945"
+accent = "#83A598"
+selection = "#504945"
+selection_foreground = "#FBF1C7"
+focus = "#83A598"
+inactive = "#928374"
+
+[terminal]
+background = "#282828"
+foreground = "#EBDBB2"
+cursor = "#EBDBB2"
+cursor_text = "#282828"
+selection = "#504945"
+selection_foreground = "#FBF1C7"
+
+[ansi.normal]
+black = "#282828"
+red = "#CC241D"
+green = "#98971A"
+yellow = "#D79921"
+blue = "#458588"
+magenta = "#B16286"
+cyan = "#689D6A"
+white = "#A89984"
+
+[ansi.bright]
+black = "#928374"
+red = "#FB4934"
+green = "#B8BB26"
+yellow = "#FABD2F"
+blue = "#83A598"
+magenta = "#D3869B"
+cyan = "#8EC07C"
+white = "#EBDBB2"
+
+[status]
+background = "#3C3836"
+foreground = "#EBDBB2"
+accent = "#83A598"
+warning = "#FABD2F"
+error = "#FB4934"
+success = "#B8BB26"
+
+[tab]
+active_background = "#282828"
+active_foreground = "#FBF1C7"
+inactive_background = "#3C3836"
+inactive_foreground = "#928374"
+activity = "#83A598"
+
+[scrollbar]
+track = "#282828"
+thumb = "#504945"
+hover = "#665C54"
+
+[syntax]
+comment = "#928374"
+keyword = "#FB4934"
+string = "#B8BB26"
+number = "#D3869B"
+function = "#83A598"
+type = "#8EC07C"
+constant = "#FABD2F"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = false
