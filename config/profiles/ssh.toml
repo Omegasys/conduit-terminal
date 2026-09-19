@@ -1,0 +1,78 @@
+# Conduit SSH profile.
+# Intended for remote terminal sessions.
+
+[application]
+confirm_close = true
+restore_session = false
+restore_workspace = true
+
+[terminal]
+scrollback_lines = 10000
+cursor_style = "block"
+cursor_blink = true
+bracketed_paste = true
+mouse_reporting = true
+
+[shell]
+default = "auto"
+login_shell = true
+integration = true
+history_integration = true
+
+[appearance]
+theme = "default"
+font_family = "monospace"
+font_size = 12.0
+ligatures = true
+
+[remote]
+enabled = true
+ssh_enabled = true
+remote_clipboard = false
+remote_notifications = false
+connection_timeout_seconds = 30
+
+[clipboard]
+enabled = true
+confirm_paste = true
+history_enabled = false
+allow_terminal_read = false
+allow_terminal_write = true
+redact_sensitive_data = true
+
+[security]
+profile = "standard"
+sandbox = true
+untrusted_output_protection = true
+hyperlink_protection = true
+clipboard_protection = true
+plugin_permission_checks = true
+resource_validation = true
+payload_limits = true
+sensitive_data_redaction = true
+
+[security.hyperlinks]
+allow_http = true
+allow_https = true
+allow_file = false
+allow_ssh = false
+confirm_external = true
+
+[plugins]
+enabled = true
+require_manifest = true
+require_permissions = true
+sandbox = true
+auto_enable = false
+
+[diagnostics]
+enabled = true
+log_level = "info"
+flow_view = false
+event_history = true
+event_history_limit = 1000
+
+[workspace]
+remember_state = true
+restore_layout = true
+persist_sessions = false
