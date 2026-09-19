@@ -1,0 +1,80 @@
+[theme]
+id = "default"
+name = "Conduit Default"
+version = "1.0"
+description = "The standard Conduit terminal theme."
+inherits = ""
+
+[ui]
+background = "#1E1E1E"
+foreground = "#D4D4D4"
+panel_background = "#252526"
+panel_foreground = "#CCCCCC"
+border = "#3E3E42"
+accent = "#569CD6"
+selection = "#264F78"
+selection_foreground = "#FFFFFF"
+focus = "#569CD6"
+inactive = "#808080"
+
+[terminal]
+background = "#1E1E1E"
+foreground = "#D4D4D4"
+cursor = "#FFFFFF"
+cursor_text = "#1E1E1E"
+selection = "#264F78"
+selection_foreground = "#FFFFFF"
+
+[ansi.normal]
+black = "#000000"
+red = "#CD3131"
+green = "#0DBC79"
+yellow = "#E5E510"
+blue = "#2472C8"
+magenta = "#BC3FBC"
+cyan = "#11A8CD"
+white = "#E5E5E5"
+
+[ansi.bright]
+black = "#666666"
+red = "#F14C4C"
+green = "#23D18B"
+yellow = "#F5F543"
+blue = "#3B8EEA"
+magenta = "#D670D6"
+cyan = "#29B8DB"
+white = "#FFFFFF"
+
+[status]
+background = "#252526"
+foreground = "#CCCCCC"
+accent = "#569CD6"
+warning = "#CCA700"
+error = "#F14C4C"
+success = "#23D18B"
+
+[tab]
+active_background = "#1E1E1E"
+active_foreground = "#FFFFFF"
+inactive_background = "#2D2D30"
+inactive_foreground = "#969696"
+activity = "#569CD6"
+
+[scrollbar]
+track = "#1E1E1E"
+thumb = "#424242"
+hover = "#5A5A5A"
+
+[syntax]
+comment = "#6A9955"
+keyword = "#569CD6"
+string = "#CE9178"
+number = "#B5CEA8"
+function = "#DCDCAA"
+type = "#4EC9B0"
+constant = "#4FC1FF"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = false
