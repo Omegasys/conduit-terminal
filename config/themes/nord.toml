@@ -1,0 +1,80 @@
+[theme]
+id = "nord"
+name = "Nord"
+version = "1.0"
+description = "A cool arctic-inspired terminal theme."
+inherits = ""
+
+[ui]
+background = "#2E3440"
+foreground = "#D8DEE9"
+panel_background = "#3B4252"
+panel_foreground = "#D8DEE9"
+border = "#4C566A"
+accent = "#88C0D0"
+selection = "#434C5E"
+selection_foreground = "#ECEFF4"
+focus = "#88C0D0"
+inactive = "#7B88A1"
+
+[terminal]
+background = "#2E3440"
+foreground = "#D8DEE9"
+cursor = "#D8DEE9"
+cursor_text = "#2E3440"
+selection = "#434C5E"
+selection_foreground = "#ECEFF4"
+
+[ansi.normal]
+black = "#3B4252"
+red = "#BF616A"
+green = "#A3BE8C"
+yellow = "#EBCB8B"
+blue = "#81A1C1"
+magenta = "#B48EAD"
+cyan = "#88C0D0"
+white = "#E5E9F0"
+
+[ansi.bright]
+black = "#4C566A"
+red = "#BF616A"
+green = "#A3BE8C"
+yellow = "#EBCB8B"
+blue = "#81A1C1"
+magenta = "#B48EAD"
+cyan = "#8FBCBB"
+white = "#ECEFF4"
+
+[status]
+background = "#3B4252"
+foreground = "#D8DEE9"
+accent = "#88C0D0"
+warning = "#EBCB8B"
+error = "#BF616A"
+success = "#A3BE8C"
+
+[tab]
+active_background = "#2E3440"
+active_foreground = "#ECEFF4"
+inactive_background = "#3B4252"
+inactive_foreground = "#7B88A1"
+activity = "#88C0D0"
+
+[scrollbar]
+track = "#2E3440"
+thumb = "#4C566A"
+hover = "#616E88"
+
+[syntax]
+comment = "#616E88"
+keyword = "#81A1C1"
+string = "#A3BE8C"
+number = "#B48EAD"
+function = "#88C0D0"
+type = "#8FBCBB"
+constant = "#EBCB8B"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = false
