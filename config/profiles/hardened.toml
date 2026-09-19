@@ -1,0 +1,82 @@
+# Conduit hardened profile.
+# Intended for restrictive environments and untrusted workloads.
+
+[application]
+confirm_close = true
+restore_session = false
+restore_workspace = false
+show_notifications = false
+
+[terminal]
+scrollback_lines = 2000
+cursor_style = "block"
+cursor_blink = false
+bell = "none"
+bracketed_paste = true
+mouse_reporting = false
+alternate_screen = true
+
+[shell]
+default = "auto"
+login_shell = true
+integration = false
+history_integration = false
+
+[ui]
+show_menu_bar = true
+show_toolbar = false
+show_sidebar = false
+show_status_bar = true
+show_tab_bar = true
+show_command_palette = true
+animations = false
+reduced_motion = true
+
+[clipboard]
+enabled = true
+confirm_paste = true
+history_enabled = false
+allow_terminal_read = false
+allow_terminal_write = false
+redact_sensitive_data = true
+
+[security]
+profile = "hardened"
+sandbox = true
+untrusted_output_protection = true
+hyperlink_protection = true
+clipboard_protection = true
+plugin_permission_checks = true
+resource_validation = true
+payload_limits = true
+sensitive_data_redaction = true
+
+[security.hyperlinks]
+allow_http = false
+allow_https = true
+allow_file = false
+allow_ssh = false
+confirm_external = true
+
+[plugins]
+enabled = false
+require_manifest = true
+require_permissions = true
+sandbox = true
+auto_enable = false
+
+[remote]
+enabled = true
+ssh_enabled = true
+remote_clipboard = false
+remote_notifications = false
+connection_timeout_seconds = 20
+
+[diagnostics]
+enabled = true
+log_level = "warn"
+flow_view = false
+event_history = false
+
+[experimental]
+enabled = false
