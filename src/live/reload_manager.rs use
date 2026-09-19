@@ -1,0 +1,334 @@
+use std::collections::HashSet;
+use std::path::PathBuf;
+
+use crate::resources::{
+    ResourceId,
+    ResourceKind,
+    ResourceManager,
+};
+
+use super::change_detector::{
+    ChangeDetector,
+    ResourceChange,
+};
+use super::dependency_graph::DependencyGraph;
+use super::hot_reload::{
+    HotReloadAction,
+    HotReloadController,
+    HotReloadResult,
+};
+use super::watcher::{
+    ResourceWatcher,
+    WatchEvent,
+};
+
+#[derive(Debug, Clone)]
+pub struct ReloadRequest {
+    pub resource: ResourceId,
+    pub kind: ResourceKind,
+    pub change: ResourceChange,
+}
+
+#[derive(Debug, Default)]
+pub struct ReloadResult {
+    pub processed: Vec<ResourceId>,
+    pub restarted: Vec<ResourceId>,
+    pub ignored: Vec<ResourceId>,
+    pub errors: Vec<String>,
+}
+
+pub struct ReloadManager {
+    watcher: ResourceWatcher,
+    detector: ChangeDetector,
+    dependency_graph: DependencyGraph,
+    hot_reload: HotReloadController,
+}
+
+impl ReloadManager {
+    pub fn new() -> Self {
+        Self {
+            watcher: ResourceWatcher::new(),
+            detector: ChangeDetector::new(),
+            dependency_graph: DependencyGraph::new(),
+            hot_reload: HotReloadController::new(),
+        }
+    }
+
+    pub fn watcher(&self) -> &ResourceWatcher {
+        &self.watcher
+    }
+
+    pub fn watcher_mut(&mut self) -> &mut ResourceWatcher {
+        &mut self.watcher
+    }
+
+    pub fn dependency_graph(&self) -> &DependencyGraph {
+        &self.dependency_graph
+    }
+
+    pub fn dependency_graph_mut(&mut self) -> &mut DependencyGraph {
+        &mut self.dependency_graph
+    }
+
+    pub fn add_watch_root(
+        &mut self,
+        path: impl Into<PathBuf>,
+    ) {
+        self.watcher.add_root(path);
+    }
+
+    pub fn process(
+        &mut self,
+        resources: &mut ResourceManager,
+    ) -> ReloadResult {
+        let events = self.watcher.poll();
+        let mut result = ReloadResult::default();
+
+        for event in events {
+            if let Some(change) = self.detector.detect(&event) {
+                self.process_change(
+                    change,
+                    resources,
+                    &mut result,
+                );
+            }
+        }
+
+        result
+    }
+
+    pub fn process_event(
+        &mut self,
+        event: WatchEvent,
+        resources: &mut ResourceManager,
+    ) -> ReloadResult {
+        let mut result = ReloadResult::default();
+
+        if let Some(change) = self.detector.detect(&event) {
+            self.process_change(
+                change,
+                resources,
+                &mut result,
+            );
+        }
+
+        result
+    }
+
+    fn process_change(
+        &mut self,
+        change: ResourceChange,
+        resources: &mut ResourceManager,
+        result: &mut ReloadResult,
+    ) {
+        let resource = match resources.find_by_path(&change.path) {
+            Some(resource) => resource,
+            None => {
+                self.handle_unknown_resource(
+                    change,
+                    resources,
+                    result,
+                );
+                return;
+            }
+        };
+
+        let id = resource.id();
+        let kind = resource.kind();
+
+        let decision = self.hot_reload.decide(
+            id,
+            kind,
+            &change,
+        );
+
+        self.apply_decision(
+            decision,
+            resources,
+            result,
+        );
+    }
+
+    fn handle_unknown_resource(
+        &mut self,
+        change: ResourceChange,
+        resources: &mut ResourceManager,
+        result: &mut ReloadResult,
+    ) {
+        if !matches!(
+            change.kind,
+            super::change_detector::ResourceChangeKind::Added
+        ) {
+            return;
+        }
+
+        let discovered = resources.discover();
+
+        for resource in discovered.discovered {
+            if resource.path() == change.path {
+                let kind = resource.kind();
+
+                match resources.registry_mut().insert(resource) {
+                    Ok(id) => {
+                        let decision =
+                            self.hot_reload.decide(
+                                id,
+                                kind,
+                                &change,
+                            );
+
+                        self.apply_decision(
+                            decision,
+                            resources,
+                            result,
+                        );
+                    }
+
+                    Err(error) => {
+                        result.errors.push(error.to_string());
+                    }
+                }
+
+                break;
+            }
+        }
+    }
+
+    fn apply_decision(
+        &mut self,
+        decision: HotReloadResult,
+        resources: &mut ResourceManager,
+        result: &mut ReloadResult,
+    ) {
+        let Some(resource_id) = decision.resource else {
+            return;
+        };
+
+        match decision.action {
+            HotReloadAction::Reload => {
+                if let Some(resource) =
+                    resources.get_mut(resource_id)
+                {
+                    resource.set_state(
+                        crate::resources::resource::ResourceState::Loading,
+                    );
+
+                    if let Err(error) =
+                        resource.refresh_metadata()
+                    {
+                        resource.mark_invalid();
+                        result.errors.push(error.to_string());
+                        return;
+                    }
+
+                    resource.set_state(
+                        crate::resources::resource::ResourceState::Loaded,
+                    );
+
+                    result.processed.push(resource_id);
+                }
+            }
+
+            HotReloadAction::ReloadDependents => {
+                let affected =
+                    self.dependency_graph.affected_by(resource_id);
+
+                for id in affected {
+                    if let Some(resource) =
+                        resources.get_mut(id)
+                    {
+                        resource.set_state(
+                            crate::resources::resource::ResourceState::Loading,
+                        );
+
+                        if let Err(error) =
+                            resource.refresh_metadata()
+                        {
+                            resource.mark_invalid();
+                            result.errors.push(error.to_string());
+                            continue;
+                        }
+
+                        resource.set_state(
+                            crate::resources::resource::ResourceState::Loaded,
+                        );
+
+                        result.processed.push(id);
+                    }
+                }
+            }
+
+            HotReloadAction::RestartComponent => {
+                result.restarted.push(resource_id);
+            }
+
+            HotReloadAction::Ignore => {
+                result.ignored.push(resource_id);
+            }
+        }
+    }
+
+    pub fn track_resource(
+        &mut self,
+        resource_id: ResourceId,
+        resources: &ResourceManager,
+    ) {
+        if let Some(resource) = resources.get(resource_id) {
+            self.detector.track(resource.path());
+        }
+    }
+
+    pub fn add_dependency(
+        &mut self,
+        resource: ResourceId,
+        dependency: ResourceId,
+    ) {
+        self.dependency_graph
+            .add_dependency(resource, dependency);
+    }
+
+    pub fn remove_dependency(
+        &mut self,
+        resource: ResourceId,
+        dependency: ResourceId,
+    ) {
+        self.dependency_graph
+            .remove_dependency(resource, dependency);
+    }
+
+    pub fn tracked_resource_count(&self) -> usize {
+        0
+    }
+
+    pub fn affected_resources(
+        &self,
+        resource: ResourceId,
+    ) -> Vec<ResourceId> {
+        self.dependency_graph.affected_by(resource)
+    }
+
+    pub fn clear_dependencies(&mut self) {
+        self.dependency_graph.clear();
+    }
+
+    pub fn contains_dependency(
+        &self,
+        resource: ResourceId,
+    ) -> bool {
+        self.dependency_graph.contains(resource)
+    }
+
+    pub fn validate_no_duplicate_processing(
+        ids: &[ResourceId],
+    ) -> bool {
+        let mut seen = HashSet::new();
+
+        ids.iter().all(|id| seen.insert(*id))
+    }
+}
+
+impl Default for ReloadManager {
+    fn default() -> Self {
+        Self::new()
+    }
+}
