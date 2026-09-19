@@ -73,3 +73,32 @@ pub use themes::{
     GuiTheme,
     GuiThemeManager,
 };
+pub mod toolbar;
+
+pub use toolbar::{
+    Accelerator,
+    AcceleratorManager,
+    FileMenu,
+    Menu,
+    MenuAction,
+    MenuBar,
+    MenuItem,
+    MenuItemKind,
+    EditMenu,
+    HelpMenu,
+    PanesMenu,
+    SessionMenu,
+    TabsMenu,
+    TerminalMenu,
+    ToolsMenu,
+    ViewMenu,
+    Toolbar,
+    ToolbarAction,
+    ToolbarButton,
+    ToolbarButtonGroup,
+    ToolbarButtonKind,
+    ToolbarLayout,
+    ToolbarPosition,
+    OverflowItem,
+    OverflowMenu,
+};
