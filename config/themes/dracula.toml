@@ -1,0 +1,80 @@
+[theme]
+id = "dracula"
+name = "Dracula"
+version = "1.0"
+description = "A dark theme with vivid purple, pink, cyan, and green accents."
+inherits = ""
+
+[ui]
+background = "#282A36"
+foreground = "#F8F8F2"
+panel_background = "#21222C"
+panel_foreground = "#F8F8F2"
+border = "#44475A"
+accent = "#BD93F9"
+selection = "#44475A"
+selection_foreground = "#F8F8F2"
+focus = "#BD93F9"
+inactive = "#6272A4"
+
+[terminal]
+background = "#282A36"
+foreground = "#F8F8F2"
+cursor = "#F8F8F2"
+cursor_text = "#282A36"
+selection = "#44475A"
+selection_foreground = "#F8F8F2"
+
+[ansi.normal]
+black = "#21222C"
+red = "#FF5555"
+green = "#50FA7B"
+yellow = "#F1FA8C"
+blue = "#BD93F9"
+magenta = "#FF79C6"
+cyan = "#8BE9FD"
+white = "#F8F8F2"
+
+[ansi.bright]
+black = "#6272A4"
+red = "#FF6E6E"
+green = "#69FF94"
+yellow = "#FFFFA5"
+blue = "#D6ACFF"
+magenta = "#FF92DF"
+cyan = "#A4FFFF"
+white = "#FFFFFF"
+
+[status]
+background = "#21222C"
+foreground = "#F8F8F2"
+accent = "#BD93F9"
+warning = "#F1FA8C"
+error = "#FF5555"
+success = "#50FA7B"
+
+[tab]
+active_background = "#282A36"
+active_foreground = "#F8F8F2"
+inactive_background = "#21222C"
+inactive_foreground = "#6272A4"
+activity = "#FF79C6"
+
+[scrollbar]
+track = "#282A36"
+thumb = "#44475A"
+hover = "#6272A4"
+
+[syntax]
+comment = "#6272A4"
+keyword = "#FF79C6"
+string = "#F1FA8C"
+number = "#BD93F9"
+function = "#50FA7B"
+type = "#8BE9FD"
+constant = "#FFB86C"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = false
