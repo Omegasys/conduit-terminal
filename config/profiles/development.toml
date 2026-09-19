@@ -1,0 +1,82 @@
+# Conduit development profile.
+# Intended for development, debugging, testing, and diagnostics.
+
+[application]
+confirm_close = true
+restore_session = false
+restore_workspace = false
+show_notifications = true
+
+[terminal]
+scrollback_lines = 20000
+cursor_style = "block"
+cursor_blink = true
+bracketed_paste = true
+mouse_reporting = true
+
+[shell]
+default = "auto"
+login_shell = true
+integration = true
+history_integration = true
+
+[ui]
+show_menu_bar = true
+show_toolbar = true
+show_sidebar = true
+show_status_bar = true
+show_tab_bar = true
+show_command_palette = true
+
+[appearance]
+theme = "default"
+font_family = "monospace"
+font_size = 12.0
+ligatures = true
+
+[rendering]
+backend = "auto"
+gpu_acceleration = true
+software_fallback = true
+vsync = true
+
+[clipboard]
+enabled = true
+confirm_paste = true
+history_enabled = false
+redact_sensitive_data = true
+
+[security]
+profile = "standard"
+sandbox = true
+untrusted_output_protection = true
+hyperlink_protection = true
+clipboard_protection = true
+plugin_permission_checks = true
+resource_validation = true
+payload_limits = true
+sensitive_data_redaction = true
+
+[plugins]
+enabled = true
+require_manifest = true
+require_permissions = true
+sandbox = true
+auto_enable = false
+
+[diagnostics]
+enabled = true
+log_level = "debug"
+flow_view = true
+event_history = true
+event_history_limit = 10000
+
+[performance]
+event_batching = true
+output_batching = true
+incremental_rendering = true
+lazy_resource_loading = false
+background_discovery = true
+
+[experimental]
+enabled = true
