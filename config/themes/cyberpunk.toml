@@ -1,0 +1,86 @@
+[theme]
+id = "cyberpunk"
+name = "Conduit Cyberpunk"
+version = "1.0"
+description = "A dark cyberpunk-inspired theme with electric blue, violet, and neon orange accents."
+inherits = ""
+
+[ui]
+background = "#090B12"
+foreground = "#D9E2F2"
+panel_background = "#0F1320"
+panel_foreground = "#C9D4E8"
+border = "#24304A"
+accent = "#00BFFF"
+selection = "#182C4A"
+selection_foreground = "#FFFFFF"
+focus = "#00BFFF"
+inactive = "#56627A"
+
+[terminal]
+background = "#090B12"
+foreground = "#D9E2F2"
+cursor = "#FF7A00"
+cursor_text = "#090B12"
+selection = "#182C4A"
+selection_foreground = "#FFFFFF"
+
+[ansi.normal]
+black = "#080A0F"
+red = "#FF3B5C"
+green = "#39FF88"
+yellow = "#FFB000"
+blue = "#008CFF"
+magenta = "#C44CFF"
+cyan = "#00E5FF"
+white = "#D9E2F2"
+
+[ansi.bright]
+black = "#56627A"
+red = "#FF5577"
+green = "#5CFF9D"
+yellow = "#FFD166"
+blue = "#33A7FF"
+magenta = "#D477FF"
+cyan = "#4DEBFF"
+white = "#FFFFFF"
+
+[status]
+background = "#0F1320"
+foreground = "#D9E2F2"
+accent = "#00BFFF"
+warning = "#FFB000"
+error = "#FF3B5C"
+success = "#39FF88"
+
+[tab]
+active_background = "#090B12"
+active_foreground = "#FFFFFF"
+inactive_background = "#0F1320"
+inactive_foreground = "#56627A"
+activity = "#00BFFF"
+
+[scrollbar]
+track = "#090B12"
+thumb = "#24304A"
+hover = "#344363"
+
+[syntax]
+comment = "#56627A"
+keyword = "#C44CFF"
+string = "#39FF88"
+number = "#FFB000"
+function = "#00BFFF"
+type = "#00E5FF"
+constant = "#FF7A00"
+
+[effects]
+transparency = 1.0
+blur = false
+glow = true
+
+[effects.glow]
+accent = true
+cursor = true
+active_tab = true
+intensity = 0.35
