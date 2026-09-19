@@ -102,3 +102,17 @@ pub use toolbar::{
     OverflowItem,
     OverflowMenu,
 };
+pub mod tab_bar;
+
+pub use tab_bar::{
+    TabBar,
+    TabBarControl,
+    TabBarControlAction,
+    TabBarControls,
+    TabBarLayout,
+    TabBarTab,
+    TabBarTabState,
+    TabBarOverflowMode,
+    TabContextAction,
+    TabContextMenu,
+};
