@@ -116,3 +116,18 @@ pub use tab_bar::{
     TabContextAction,
     TabContextMenu,
 };
+pub mod status_bar;
+
+pub use status_bar::{
+    IndicatorKind,
+    StatusBar,
+    StatusBarLayout,
+    StatusBarPosition,
+    StatusIndicator,
+    StatusIndicatorManager,
+    StatusIndicatorState,
+    StatusSegment,
+    StatusSegmentAlignment,
+    StatusSegmentKind,
+    StatusSegmentManager,
+};
