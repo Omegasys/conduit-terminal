@@ -31,3 +31,45 @@ pub use workspaces::{
     GuiWorkspace,
     GuiWorkspaceManager,
 };
+pub mod accessibility;
+pub mod diagnostics;
+pub mod keyboard;
+pub mod mouse;
+pub mod security;
+pub mod themes;
+
+pub use accessibility::AccessibilitySettings;
+
+pub use diagnostics::{
+    DiagnosticLevel,
+    DiagnosticMessage,
+    DiagnosticsManager,
+};
+
+pub use keyboard::{
+    Key,
+    KeyBinding,
+    KeyCombination,
+    KeyModifier,
+    KeyboardAction,
+    KeyboardManager,
+};
+
+pub use mouse::{
+    MouseAction,
+    MouseButton,
+    MousePosition,
+    MouseSettings,
+    MouseState,
+};
+
+pub use security::{
+    GuiSecurityMode,
+    GuiSecuritySettings,
+    SecurityDecision,
+};
+
+pub use themes::{
+    GuiTheme,
+    GuiThemeManager,
+};
