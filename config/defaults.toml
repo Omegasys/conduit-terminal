@@ -1,0 +1,182 @@
+# Conduit built-in defaults.
+# User configuration should normally be stored at:
+# ~/.config/conduit/config.toml
+
+[application]
+name = "Conduit"
+confirm_close = true
+restore_session = false
+restore_workspace = false
+show_notifications = true
+safe_mode = false
+
+[terminal]
+scrollback_lines = 10000
+scroll_on_output = true
+scroll_on_keypress = true
+cursor_style = "block"
+cursor_blink = true
+cursor_blink_interval_ms = 500
+bell = "visual"
+audible_bell = false
+bracketed_paste = true
+mouse_reporting = true
+alternate_screen = true
+unicode = true
+default_encoding = "utf-8"
+
+[shell]
+default = "auto"
+login_shell = true
+inherit_environment = true
+working_directory = "inherit"
+integration = true
+history_integration = true
+
+[window]
+decorations = true
+maximized = false
+fullscreen = false
+remember_size = true
+remember_position = true
+
+[ui]
+show_menu_bar = true
+show_toolbar = true
+show_sidebar = true
+show_status_bar = true
+show_tab_bar = true
+show_command_palette = true
+compact_mode = false
+animations = true
+reduced_motion = false
+
+[ui.sidebar]
+position = "left"
+width = 280
+collapsible = true
+
+[ui.toolbar]
+visible = true
+compact = false
+
+[tabs]
+position = "top"
+close_button = true
+new_tab_button = true
+confirm_close = false
+reorderable = true
+restore_closed_tabs = true
+
+[panes]
+enabled = true
+split_orientation = "auto"
+remember_layout = true
+focus_follows_mouse = false
+
+[workspace]
+default = "default"
+remember_state = true
+restore_layout = true
+persist_sessions = false
+switch_animation = true
+
+[appearance]
+theme = "default"
+font_family = "monospace"
+font_size = 12.0
+line_height = 1.0
+letter_spacing = 0.0
+padding = 8
+transparency = 1.0
+ligatures = true
+
+[rendering]
+backend = "auto"
+gpu_acceleration = true
+software_fallback = true
+vsync = true
+target_fps = 60
+damage_tracking = true
+glyph_cache = true
+image_cache = true
+
+[input]
+keyboard_layout = "auto"
+copy_on_select = false
+paste_on_middle_click = true
+focus_follows_mouse = false
+
+[clipboard]
+enabled = true
+confirm_paste = false
+history_enabled = false
+history_limit = 100
+allow_terminal_read = true
+allow_terminal_write = true
+redact_sensitive_data = true
+
+[notifications]
+enabled = true
+terminal_bell = true
+command_completion = false
+session_activity = false
+plugin_notifications = true
+
+[security]
+profile = "standard"
+sandbox = true
+untrusted_output_protection = true
+hyperlink_protection = true
+clipboard_protection = true
+plugin_permission_checks = true
+resource_validation = true
+payload_limits = true
+sensitive_data_redaction = true
+
+[security.hyperlinks]
+allow_http = true
+allow_https = true
+allow_file = false
+allow_ssh = false
+confirm_external = true
+
+[plugins]
+enabled = true
+require_manifest = true
+require_permissions = true
+sandbox = true
+auto_enable = false
+
+[remote]
+enabled = true
+ssh_enabled = true
+remote_clipboard = false
+remote_notifications = false
+connection_timeout_seconds = 30
+
+[diagnostics]
+enabled = true
+log_level = "info"
+flow_view = false
+event_history = true
+event_history_limit = 1000
+
+[performance]
+event_batching = true
+output_batching = true
+incremental_rendering = true
+lazy_resource_loading = true
+background_discovery = true
+
+[accessibility]
+screen_reader = "auto"
+high_contrast = false
+large_text = false
+focus_indicators = true
+reduced_motion = false
+keyboard_navigation = true
+audible_notifications = false
+
+[experimental]
+enabled = false
