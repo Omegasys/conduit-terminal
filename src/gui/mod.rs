@@ -172,3 +172,25 @@ pub use command_palette::{
     CommandSearchMatch,
     SearchMatchKind,
 };
+pub mod settings_ui;
+
+pub use settings_ui::{
+    ApplicationSettingsUi,
+    ApplicationSettingsUiState,
+    AppearanceSettings,
+    BellStyle,
+    ColorScheme,
+    ColorSettings,
+    CursorBlinkMode,
+    CursorStyle,
+    FontSettings,
+    FontWeight,
+    GeneralSettings,
+    ScrollbarMode,
+    SettingsPage,
+    SettingsUiNavigation,
+    StartupBehavior,
+    TabBarStyle,
+    TerminalSettings,
+    ThemeMode,
+};
