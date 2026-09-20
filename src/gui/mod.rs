@@ -194,3 +194,4 @@ pub use settings_ui::{
     TerminalSettings,
     ThemeMode,
 };
+pub mod security_center;
