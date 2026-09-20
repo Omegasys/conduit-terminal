@@ -99,3 +99,37 @@ pub use workspaces::{
     WorkspaceDisplay,
     WorkspaceDisplayState,
 };
+pub mod configuration_editor;
+pub mod connections;
+pub mod flow_view;
+pub mod history;
+
+pub use configuration_editor::{
+    ConfigEditorLine,
+    ConfigEditorLineKind,
+    ConfigEditorMode,
+    EditorCursor,
+    EditorSelection,
+    TuiConfigurationEditor,
+};
+
+pub use connections::{
+    ConnectionDisplay,
+    ConnectionKind,
+    ConnectionState,
+    TuiConnectionView,
+};
+
+pub use flow_view::{
+    FlowDisplayStyle,
+    FlowViewport,
+    TuiFlowMode,
+    TuiFlowView,
+};
+
+pub use history::{
+    HistoryEntry,
+    HistoryEntryKind,
+    HistoryFilter,
+    TuiHistoryView,
+};
