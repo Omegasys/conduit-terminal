@@ -155,3 +155,20 @@ pub use sidebar::{
     SidebarWorkspaceManager,
     ToolCategory,
 };
+pub mod command_palette;
+
+pub use command_palette::{
+    CommandCategory,
+    CommandCategoryManager,
+    CommandEntry,
+    CommandEntryState,
+    CommandHistory,
+    CommandHistoryEntry,
+    CommandManager,
+    CommandPalette,
+    CommandPaletteMode,
+    CommandPaletteState,
+    CommandSearch,
+    CommandSearchMatch,
+    SearchMatchKind,
+};
