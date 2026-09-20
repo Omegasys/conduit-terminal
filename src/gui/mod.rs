@@ -131,3 +131,27 @@ pub use status_bar::{
     StatusSegmentKind,
     StatusSegmentManager,
 };
+pub mod sidebar;
+
+pub use sidebar::{
+    ConnectionEntry,
+    ConnectionKind,
+    ConnectionManager,
+    ConnectionState,
+    NavigationEntry,
+    NavigationManager,
+    NavigationTarget,
+    SessionEntry,
+    SessionManager,
+    SessionState,
+    Sidebar,
+    SidebarPanel,
+    SidebarPosition,
+    SidebarState,
+    SidebarStateSnapshot,
+    SidebarTool,
+    SidebarToolManager,
+    SidebarWorkspace,
+    SidebarWorkspaceManager,
+    ToolCategory,
+};
