@@ -1,20 +1,22 @@
-use super::panes::{FlowPaneId, PaneInfo, PaneState};
-use super::pty::{PtySession, PtyState};
+use crate::colors::{
+    Color,
+    ColorCapabilities,
+    ColorConversion,
+    Rgba,
+    SemanticColor,
+    TrueColor,
+};
 
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+use super::panes::FlowPaneId;
+
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RenderMode {
     Normal,
     Debug,
     Minimal,
 }
 
-impl Default for RenderMode {
-    fn default() -> Self {
-        Self::Normal
-    }
-}
-
-#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
 pub enum RenderLayer {
     Background,
     Terminal,
@@ -24,135 +26,133 @@ pub enum RenderLayer {
     Debug,
 }
 
-#[derive(Debug, Clone)]
+#[derive(Clone, Copy, Debug)]
 pub struct RenderCell {
-    pub character: char,
-    pub row: usize,
-    pub column: usize,
-    pub selected: bool,
+    pub foreground: Color,
+    pub background: Color,
     pub bold: bool,
-    pub dim: bool,
+    pub italic: bool,
+    pub underline: bool,
 }
 
-impl RenderCell {
-    pub fn new(character: char, row: usize, column: usize) -> Self {
+impl Default for RenderCell {
+    fn default() -> Self {
         Self {
-            character,
-            row,
-            column,
-            selected: false,
+            foreground: Color::rgb(216, 222, 233),
+            background: Color::rgb(46, 52, 64),
             bold: false,
-            dim: false,
+            italic: false,
+            underline: false,
         }
     }
 }
 
-#[derive(Debug, Clone)]
+impl RenderCell {
+    pub fn new(foreground: Color, background: Color) -> Self {
+        Self {
+            foreground,
+            background,
+            ..Self::default()
+        }
+    }
+
+    pub fn with_bold(mut self, value: bool) -> Self {
+        self.bold = value;
+        self
+    }
+
+    pub fn with_italic(mut self, value: bool) -> Self {
+        self.italic = value;
+        self
+    }
+
+    pub fn with_underline(mut self, value: bool) -> Self {
+        self.underline = value;
+        self
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct PaneRenderState {
-    pane_id: FlowPaneId,
-    title: String,
-    state: PaneState,
-    pty_state: Option<PtyState>,
-    columns: u16,
-    rows: u16,
-    cursor_row: usize,
-    cursor_column: usize,
+    pane: FlowPaneId,
+    width: u16,
+    height: u16,
     cells: Vec<RenderCell>,
 }
 
 impl PaneRenderState {
-    pub fn new(
-        pane: &PaneInfo,
-        pty: Option<&PtySession>,
-    ) -> Self {
-        let (columns, rows, pty_state) = match pty {
-            Some(session) => (
-                session.size().columns,
-                session.size().rows,
-                Some(session.state()),
-            ),
-            None => (80, 24, None),
-        };
+    pub fn new(pane: FlowPaneId, width: u16, height: u16) -> Self {
+        let count = width as usize * height as usize;
 
         Self {
-            pane_id: pane.id(),
-            title: pane.title().to_string(),
-            state: pane.state(),
-            pty_state,
-            columns,
-            rows,
-            cursor_row: 0,
-            cursor_column: 0,
-            cells: Vec::new(),
+            pane,
+            width,
+            height,
+            cells: vec![RenderCell::default(); count],
         }
     }
 
-    pub fn pane_id(&self) -> FlowPaneId {
-        self.pane_id
+    pub fn pane(&self) -> FlowPaneId {
+        self.pane
     }
 
-    pub fn title(&self) -> &str {
-        &self.title
+    pub fn width(&self) -> u16 {
+        self.width
     }
 
-    pub fn state(&self) -> PaneState {
-        self.state
+    pub fn height(&self) -> u16 {
+        self.height
     }
 
-    pub fn pty_state(&self) -> Option<PtyState> {
-        self.pty_state
+    pub fn cell(&self, x: u16, y: u16) -> Option<&RenderCell> {
+        if x >= self.width || y >= self.height {
+            return None;
+        }
+
+        let index = y as usize * self.width as usize + x as usize;
+        self.cells.get(index)
     }
 
-    pub fn columns(&self) -> u16 {
-        self.columns
+    pub fn cell_mut(&mut self, x: u16, y: u16) -> Option<&mut RenderCell> {
+        if x >= self.width || y >= self.height {
+            return None;
+        }
+
+        let index = y as usize * self.width as usize + x as usize;
+        self.cells.get_mut(index)
     }
 
-    pub fn rows(&self) -> u16 {
-        self.rows
-    }
+    pub fn resize(&mut self, width: u16, height: u16) {
+        self.width = width;
+        self.height = height;
 
-    pub fn cursor_position(&self) -> (usize, usize) {
-        (self.cursor_row, self.cursor_column)
-    }
-
-    pub fn set_cursor_position(&mut self, row: usize, column: usize) {
-        self.cursor_row = row;
-        self.cursor_column = column;
-    }
-
-    pub fn cells(&self) -> &[RenderCell] {
-        &self.cells
-    }
-
-    pub fn set_cells(&mut self, cells: Vec<RenderCell>) {
-        self.cells = cells;
+        self.cells
+            .resize(width as usize * height as usize, RenderCell::default());
     }
 }
 
-#[derive(Debug)]
+#[derive(Clone, Debug)]
 pub struct TerminalRenderer {
     mode: RenderMode,
-    antialiasing: bool,
-    cursor_visible: bool,
-    damage_tracking: bool,
-    frame_number: u64,
+    capabilities: ColorCapabilities,
+    default_foreground: Color,
+    default_background: Color,
 }
 
 impl Default for TerminalRenderer {
     fn default() -> Self {
-        Self {
-            mode: RenderMode::Normal,
-            antialiasing: true,
-            cursor_visible: true,
-            damage_tracking: true,
-            frame_number: 0,
-        }
+        Self::new()
     }
 }
 
 impl TerminalRenderer {
     pub fn new() -> Self {
-        Self::default()
+        Self {
+            mode: RenderMode::Normal,
+            capabilities: ColorCapabilities::truecolor(),
+            default_foreground: Color::rgb(216, 222, 233),
+            default_background: Color::rgb(46, 52, 64),
+        }
     }
 
     pub fn mode(&self) -> RenderMode {
@@ -163,62 +163,55 @@ impl TerminalRenderer {
         self.mode = mode;
     }
 
-    pub fn antialiasing(&self) -> bool {
-        self.antialiasing
+    pub fn capabilities(&self) -> ColorCapabilities {
+        self.capabilities
     }
 
-    pub fn set_antialiasing(&mut self, enabled: bool) {
-        self.antialiasing = enabled;
+    pub fn set_capabilities(&mut self, capabilities: ColorCapabilities) {
+        self.capabilities = capabilities;
     }
 
-    pub fn cursor_visible(&self) -> bool {
-        self.cursor_visible
-    }
-
-    pub fn set_cursor_visible(&mut self, visible: bool) {
-        self.cursor_visible = visible;
-    }
-
-    pub fn damage_tracking(&self) -> bool {
-        self.damage_tracking
-    }
-
-    pub fn set_damage_tracking(&mut self, enabled: bool) {
-        self.damage_tracking = enabled;
-    }
-
-    pub fn frame_number(&self) -> u64 {
-        self.frame_number
-    }
-
-    pub fn begin_frame(&mut self) {
-        self.frame_number = self.frame_number.saturating_add(1);
-    }
-
-    pub fn prepare_pane(
-        &self,
-        pane: &PaneInfo,
-        pty: Option<&PtySession>,
-    ) -> PaneRenderState {
-        PaneRenderState::new(pane, pty)
-    }
-
-    pub fn render_text(
-        &self,
-        state: &mut PaneRenderState,
-        text: &str,
+    pub fn set_default_colors(
+        &mut self,
+        foreground: Color,
+        background: Color,
     ) {
-        state.set_cells(
-            text.chars()
-                .enumerate()
-                .map(|(column, character)| {
-                    RenderCell::new(character, 0, column)
-                })
-                .collect(),
-        );
+        self.default_foreground = foreground;
+        self.default_background = background;
     }
 
-    pub fn clear(&mut self) {
-        self.frame_number = 0;
+    pub fn default_foreground(&self) -> Color {
+        self.default_foreground
+    }
+
+    pub fn default_background(&self) -> Color {
+        self.default_background
+    }
+
+    pub fn resolve_color(&self, color: Color) -> Rgba {
+        ColorConversion::to_rgba(color)
+    }
+
+    pub fn resolve_semantic(
+        &self,
+        color: SemanticColor,
+    ) -> Color {
+        match color {
+            SemanticColor::TerminalForeground => self.default_foreground,
+            SemanticColor::TerminalBackground => self.default_background,
+            SemanticColor::Cursor => Color::rgb(136, 192, 208),
+            SemanticColor::Selection => Color::rgba(67, 76, 94, 180),
+            SemanticColor::Accent => Color::rgb(136, 192, 208),
+            _ => self.default_foreground,
+        }
+    }
+
+    pub fn truecolor(&self, color: Rgba) -> TrueColor {
+        TrueColor::rgba(
+            color.red(),
+            color.green(),
+            color.blue(),
+            color.alpha(),
+        )
     }
 }
