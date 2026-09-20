@@ -1,119 +1,135 @@
-#[derive(Debug, Clone)]
+use crate::colors::{
+    Color,
+    ColorCapabilities,
+    Rgba,
+    SemanticColor,
+    SemanticColorMap,
+};
+
+#[derive(Clone, Debug)]
 pub struct ColorScheme {
-    pub foreground: String,
-    pub background: String,
-    pub cursor: String,
-    pub selection: String,
-    pub border: String,
-    pub accent: String,
-}
-
-impl ColorScheme {
-    pub fn new() -> Self {
-        Self {
-            foreground: "#D8DEE9".to_string(),
-            background: "#2E3440".to_string(),
-            cursor: "#D8DEE9".to_string(),
-            selection: "#4C566A".to_string(),
-            border: "#434C5E".to_string(),
-            accent: "#88C0D0".to_string(),
-        }
-    }
-
-    pub fn set_foreground(&mut self, value: impl Into<String>) {
-        self.foreground = value.into();
-    }
-
-    pub fn set_background(&mut self, value: impl Into<String>) {
-        self.background = value.into();
-    }
-
-    pub fn set_cursor(&mut self, value: impl Into<String>) {
-        self.cursor = value.into();
-    }
-
-    pub fn set_selection(&mut self, value: impl Into<String>) {
-        self.selection = value.into();
-    }
-
-    pub fn set_border(&mut self, value: impl Into<String>) {
-        self.border = value.into();
-    }
-
-    pub fn set_accent(&mut self, value: impl Into<String>) {
-        self.accent = value.into();
-    }
+    pub foreground: Color,
+    pub background: Color,
+    pub cursor: Color,
+    pub selection: Color,
+    pub border: Color,
+    pub accent: Color,
+    pub semantic: SemanticColorMap,
 }
 
 impl Default for ColorScheme {
     fn default() -> Self {
-        Self::new()
-    }
-}
-
-#[derive(Debug, Clone)]
-pub struct ColorSettings {
-    scheme: ColorScheme,
-    use_theme_palette: bool,
-    dim_inactive_panes: bool,
-    inactive_pane_opacity: f32,
-    bold_is_bright: bool,
-}
-
-impl ColorSettings {
-    pub fn new() -> Self {
         Self {
-            scheme: ColorScheme::new(),
-            use_theme_palette: true,
-            dim_inactive_panes: false,
-            inactive_pane_opacity: 0.75,
-            bold_is_bright: true,
+            foreground: Color::rgb(216, 222, 233),
+            background: Color::rgb(46, 52, 64),
+            cursor: Color::rgb(136, 192, 208),
+            selection: Color::rgba(67, 76, 94, 180),
+            border: Color::rgb(76, 86, 106),
+            accent: Color::rgb(136, 192, 208),
+            semantic: SemanticColorMap::new(),
         }
     }
+}
 
-    pub fn scheme(&self) -> &ColorScheme {
-        &self.scheme
+impl ColorScheme {
+    pub fn set_semantic(&mut self, color: SemanticColor, value: Color) {
+        self.semantic.set(color, value);
     }
 
-    pub fn scheme_mut(&mut self) -> &mut ColorScheme {
-        &mut self.scheme
+    pub fn semantic(&self, color: SemanticColor) -> Option<Color> {
+        self.semantic.get(color)
     }
+}
 
-    pub fn use_theme_palette(&self) -> bool {
-        self.use_theme_palette
-    }
-
-    pub fn dim_inactive_panes(&self) -> bool {
-        self.dim_inactive_panes
-    }
-
-    pub fn inactive_pane_opacity(&self) -> f32 {
-        self.inactive_pane_opacity
-    }
-
-    pub fn bold_is_bright(&self) -> bool {
-        self.bold_is_bright
-    }
-
-    pub fn set_use_theme_palette(&mut self, value: bool) {
-        self.use_theme_palette = value;
-    }
-
-    pub fn set_dim_inactive_panes(&mut self, value: bool) {
-        self.dim_inactive_panes = value;
-    }
-
-    pub fn set_inactive_pane_opacity(&mut self, value: f32) {
-        self.inactive_pane_opacity = value.clamp(0.0, 1.0);
-    }
-
-    pub fn set_bold_is_bright(&mut self, value: bool) {
-        self.bold_is_bright = value;
-    }
+#[derive(Clone, Debug)]
+pub struct ColorSettings {
+    pub scheme: ColorScheme,
+    pub truecolor: bool,
+    pub transparency: bool,
+    pub alpha: u8,
+    pub high_contrast: bool,
+    pub color_adjustments: bool,
+    pub capabilities: ColorCapabilities,
 }
 
 impl Default for ColorSettings {
     fn default() -> Self {
-        Self::new()
+        Self {
+            scheme: ColorScheme::default(),
+            truecolor: true,
+            transparency: true,
+            alpha: 255,
+            high_contrast: false,
+            color_adjustments: false,
+            capabilities: ColorCapabilities::truecolor_alpha(),
+        }
+    }
+}
+
+impl ColorSettings {
+    pub fn set_foreground(&mut self, color: Color) {
+        self.scheme.foreground = color;
+    }
+
+    pub fn set_background(&mut self, color: Color) {
+        self.scheme.background = color;
+    }
+
+    pub fn set_cursor(&mut self, color: Color) {
+        self.scheme.cursor = color;
+    }
+
+    pub fn set_selection(&mut self, color: Color) {
+        self.scheme.selection = color;
+    }
+
+    pub fn set_border(&mut self, color: Color) {
+        self.scheme.border = color;
+    }
+
+    pub fn set_accent(&mut self, color: Color) {
+        self.scheme.accent = color;
+    }
+
+    pub fn set_transparency(&mut self, enabled: bool) {
+        self.transparency = enabled;
+
+        if !enabled {
+            self.alpha = 255;
+        }
+    }
+
+    pub fn set_alpha(&mut self, alpha: u8) {
+        self.alpha = alpha;
+    }
+
+    pub fn set_truecolor(&mut self, enabled: bool) {
+        self.truecolor = enabled;
+
+        if enabled {
+            self.capabilities = ColorCapabilities::truecolor_alpha();
+        }
+    }
+
+    pub fn set_high_contrast(&mut self, enabled: bool) {
+        self.high_contrast = enabled;
+    }
+
+    pub fn set_color_adjustments(&mut self, enabled: bool) {
+        self.color_adjustments = enabled;
+    }
+
+    pub fn effective_background(&self) -> Rgba {
+        let color = self.scheme.background.rgba().unwrap_or(Rgba::BLACK);
+
+        if self.transparency {
+            color.with_alpha(self.alpha)
+        } else {
+            color.with_alpha(255)
+        }
+    }
+
+    pub fn reset(&mut self) {
+        *self = Self::default();
     }
 }
