@@ -1,113 +1,144 @@
-use std::collections::BTreeMap;
+use crate::colors::{
+    Color,
+    ColorPalette,
+    Rgba,
+    SemanticColor,
+    SemanticColorMap,
+};
+use crate::resources::{
+    Resource,
+    ResourceError,
+    ResourceKind,
+};
 
-use super::resource::{Resource, ResourceError, ResourceId};
-
-#[derive(Debug, Clone, PartialEq, Eq)]
+#[derive(Clone, Debug)]
 pub struct ThemeColors {
-    pub foreground: String,
-    pub background: String,
-    pub cursor: String,
-    pub selection: String,
-    pub border: String,
-    pub accent: String,
+    pub foreground: Color,
+    pub background: Color,
+    pub cursor: Color,
+    pub selection: Color,
+    pub border: Color,
+    pub accent: Color,
 }
 
 impl Default for ThemeColors {
     fn default() -> Self {
         Self {
-            foreground: "#FFFFFF".to_owned(),
-            background: "#000000".to_owned(),
-            cursor: "#FFFFFF".to_owned(),
-            selection: "#444444".to_owned(),
-            border: "#666666".to_owned(),
-            accent: "#66CCFF".to_owned(),
+            foreground: Color::rgb(216, 222, 233),
+            background: Color::rgb(46, 52, 64),
+            cursor: Color::rgb(136, 192, 208),
+            selection: Color::rgba(67, 76, 94, 180),
+            border: Color::rgb(76, 86, 106),
+            accent: Color::rgb(136, 192, 208),
         }
     }
 }
 
-#[derive(Debug, Clone, PartialEq, Eq)]
+impl ThemeColors {
+    pub fn set(&mut self, semantic: SemanticColor, color: Color) {
+        match semantic {
+            SemanticColor::TerminalForeground => self.foreground = color,
+            SemanticColor::TerminalBackground => self.background = color,
+            SemanticColor::Cursor => self.cursor = color,
+            SemanticColor::Selection => self.selection = color,
+            SemanticColor::PaneBorder | SemanticColor::ActivePaneBorder => {
+                self.border = color
+            }
+            SemanticColor::Accent => self.accent = color,
+            _ => {}
+        }
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct ThemePalette {
-    pub black: String,
-    pub red: String,
-    pub green: String,
-    pub yellow: String,
-    pub blue: String,
-    pub magenta: String,
-    pub cyan: String,
-    pub white: String,
-    pub bright_black: String,
-    pub bright_red: String,
-    pub bright_green: String,
-    pub bright_yellow: String,
-    pub bright_blue: String,
-    pub bright_magenta: String,
-    pub bright_cyan: String,
-    pub bright_white: String,
+    colors: [Color; 16],
 }
 
 impl Default for ThemePalette {
     fn default() -> Self {
+        let colors = [
+            Rgba::rgb(46, 52, 64),
+            Rgba::rgb(191, 97, 106),
+            Rgba::rgb(163, 190, 140),
+            Rgba::rgb(235, 203, 139),
+            Rgba::rgb(129, 161, 193),
+            Rgba::rgb(180, 142, 173),
+            Rgba::rgb(136, 192, 208),
+            Rgba::rgb(216, 222, 233),
+            Rgba::rgb(76, 86, 106),
+            Rgba::rgb(191, 97, 106),
+            Rgba::rgb(163, 190, 140),
+            Rgba::rgb(235, 203, 139),
+            Rgba::rgb(129, 161, 193),
+            Rgba::rgb(180, 142, 173),
+            Rgba::rgb(143, 188, 187),
+            Rgba::rgb(236, 239, 244),
+        ];
+
         Self {
-            black: "#000000".into(),
-            red: "#CC0000".into(),
-            green: "#00CC00".into(),
-            yellow: "#CCCC00".into(),
-            blue: "#0000CC".into(),
-            magenta: "#CC00CC".into(),
-            cyan: "#00CCCC".into(),
-            white: "#CCCCCC".into(),
-            bright_black: "#555555".into(),
-            bright_red: "#FF5555".into(),
-            bright_green: "#55FF55".into(),
-            bright_yellow: "#FFFF55".into(),
-            bright_blue: "#5555FF".into(),
-            bright_magenta: "#FF55FF".into(),
-            bright_cyan: "#55FFFF".into(),
-            bright_white: "#FFFFFF".into(),
+            colors: colors.map(Color::Rgba),
         }
     }
 }
 
-#[derive(Debug, Clone)]
+impl ThemePalette {
+    pub fn get(&self, index: usize) -> Option<Color> {
+        self.colors.get(index).copied()
+    }
+
+    pub fn set(&mut self, index: usize, color: Color) {
+        if let Some(entry) = self.colors.get_mut(index) {
+            *entry = color;
+        }
+    }
+
+    pub fn colors(&self) -> &[Color; 16] {
+        &self.colors
+    }
+}
+
+#[derive(Clone, Debug)]
 pub struct Theme {
-    id: ResourceId,
+    id: u64,
     name: String,
     description: String,
-    author: Option<String>,
-    version: Option<String>,
+    author: String,
+    version: String,
     colors: ThemeColors,
     palette: ThemePalette,
-    attributes: BTreeMap<String, String>,
+    semantic: SemanticColorMap,
+    extended_palette: ColorPalette,
+    attributes: std::collections::BTreeMap<String, String>,
 }
 
 impl Theme {
-    pub fn new(
-        id: ResourceId,
-        name: impl Into<String>,
-    ) -> Self {
+    pub fn new(id: u64, name: impl Into<String>) -> Self {
         Self {
             id,
             name: name.into(),
             description: String::new(),
-            author: None,
-            version: None,
+            author: String::new(),
+            version: String::from("1.0.0"),
             colors: ThemeColors::default(),
             palette: ThemePalette::default(),
-            attributes: BTreeMap::new(),
+            semantic: SemanticColorMap::new(),
+            extended_palette: ColorPalette::new(),
+            attributes: std::collections::BTreeMap::new(),
         }
     }
 
     pub fn from_resource(resource: &Resource) -> Result<Self, ResourceError> {
-        if resource.kind() != super::resource::ResourceKind::Theme {
+        if resource.kind() != ResourceKind::Theme {
             return Err(ResourceError::InvalidResource(
-                "resource is not a theme".to_owned(),
+                "resource is not a theme".to_string(),
             ));
         }
 
-        Ok(Self::new(resource.id(), resource.name()))
+        Ok(Self::new(resource.id().value(), resource.name()))
     }
 
-    pub fn id(&self) -> ResourceId {
+    pub fn id(&self) -> u64 {
         self.id
     }
 
@@ -119,24 +150,44 @@ impl Theme {
         &self.description
     }
 
-    pub fn author(&self) -> Option<&str> {
-        self.author.as_deref()
+    pub fn author(&self) -> &str {
+        &self.author
     }
 
-    pub fn version(&self) -> Option<&str> {
-        self.version.as_deref()
+    pub fn version(&self) -> &str {
+        &self.version
     }
 
     pub fn colors(&self) -> &ThemeColors {
         &self.colors
     }
 
+    pub fn colors_mut(&mut self) -> &mut ThemeColors {
+        &mut self.colors
+    }
+
     pub fn palette(&self) -> &ThemePalette {
         &self.palette
     }
 
-    pub fn attributes(&self) -> &BTreeMap<String, String> {
-        &self.attributes
+    pub fn palette_mut(&mut self) -> &mut ThemePalette {
+        &mut self.palette
+    }
+
+    pub fn semantic(&self) -> &SemanticColorMap {
+        &self.semantic
+    }
+
+    pub fn semantic_mut(&mut self) -> &mut SemanticColorMap {
+        &mut self.semantic
+    }
+
+    pub fn extended_palette(&self) -> &ColorPalette {
+        &self.extended_palette
+    }
+
+    pub fn extended_palette_mut(&mut self) -> &mut ColorPalette {
+        &mut self.extended_palette
     }
 
     pub fn set_description(&mut self, value: impl Into<String>) {
@@ -144,19 +195,16 @@ impl Theme {
     }
 
     pub fn set_author(&mut self, value: impl Into<String>) {
-        self.author = Some(value.into());
+        self.author = value.into();
     }
 
     pub fn set_version(&mut self, value: impl Into<String>) {
-        self.version = Some(value.into());
+        self.version = value.into();
     }
 
-    pub fn set_colors(&mut self, colors: ThemeColors) {
-        self.colors = colors;
-    }
-
-    pub fn set_palette(&mut self, palette: ThemePalette) {
-        self.palette = palette;
+    pub fn set_color(&mut self, semantic: SemanticColor, color: Color) {
+        self.semantic.set(semantic, color);
+        self.colors.set(semantic, color);
     }
 
     pub fn set_attribute(
@@ -165,5 +213,15 @@ impl Theme {
         value: impl Into<String>,
     ) {
         self.attributes.insert(key.into(), value.into());
+    }
+
+    pub fn attribute(&self, key: &str) -> Option<&str> {
+        self.attributes.get(key).map(String::as_str)
+    }
+
+    pub fn attributes(
+        &self,
+    ) -> &std::collections::BTreeMap<String, String> {
+        &self.attributes
     }
 }
