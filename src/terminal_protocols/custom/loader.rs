@@ -1,16 +1,24 @@
-use std::{
-    fs,
-    path::{Path, PathBuf},
-};
+use std::fs;
+use std::path::{Path, PathBuf};
 
 use super::{
-    errors::{CustomProtocolError, CustomProtocolResult},
-    manifest::{CustomProtocolManifest, CustomProtocolMetadata},
-    protocol::{ProtocolId, ProtocolVersion},
+    capabilities::{
+        CustomProtocolCapabilities,
+        ProtocolColorSupport,
+        ProtocolExecutionModel,
+    },
+    manifest::{
+        CustomProtocolManifest,
+        CustomProtocolMetadata,
+    },
+    protocol::{
+        CustomProtocolId,
+        CustomProtocolVersion,
+    },
     validation::CustomProtocolValidator,
 };
 
-pub struct LoadedProtocol {
+pub struct LoadedCustomProtocol {
     pub manifest: CustomProtocolManifest,
     pub source_path: PathBuf,
 }
@@ -29,28 +37,48 @@ impl CustomProtocolLoader {
     pub fn load_manifest(
         &self,
         path: impl AsRef<Path>,
-    ) -> CustomProtocolResult<LoadedProtocol> {
+    ) -> Result<LoadedCustomProtocol, String> {
         let path = path.as_ref();
 
         let contents = fs::read_to_string(path)
-            .map_err(CustomProtocolError::Io)?;
+            .map_err(|error| {
+                format!(
+                    "Failed to read {}: {error}",
+                    path.display()
+                )
+            })?;
 
-        let manifest = self.parse_manifest(&contents)?;
+        let root = path
+            .parent()
+            .unwrap_or_else(|| Path::new("."));
 
-        let validation = self.validator.validate_manifest(&manifest);
+        let manifest = self.parse_manifest(
+            &contents,
+            root,
+        )?;
+
+        let validation =
+            self.validator.validate_manifest(&manifest);
 
         if validation.has_errors() {
-            return Err(CustomProtocolError::InvalidManifest(
-                validation
-                    .errors()
-                    .iter()
-                    .map(|issue| issue.message.clone())
-                    .collect::<Vec<_>>()
-                    .join("; "),
+            let errors = validation
+                .errors()
+                .map(|issue| {
+                    format!(
+                        "{}: {}",
+                        issue.field,
+                        issue.message
+                    )
+                })
+                .collect::<Vec<_>>()
+                .join("; ");
+
+            return Err(format!(
+                "Protocol manifest validation failed: {errors}"
             ));
         }
 
-        Ok(LoadedProtocol {
+        Ok(LoadedCustomProtocol {
             manifest,
             source_path: path.to_path_buf(),
         })
@@ -59,21 +87,39 @@ impl CustomProtocolLoader {
     fn parse_manifest(
         &self,
         contents: &str,
-    ) -> CustomProtocolResult<CustomProtocolManifest> {
+        root: &Path,
+    ) -> Result<CustomProtocolManifest, String> {
         let mut id = None;
         let mut name = None;
-        let mut author = None;
-        let mut description = None;
-        let mut version = ProtocolVersion::initial();
 
-        for line in contents.lines() {
-            let line = line.trim();
+        let mut author = String::new();
+        let mut description = String::new();
+
+        let mut homepage = None;
+        let mut license = None;
+
+        let mut major = 1;
+        let mut minor = 0;
+        let mut patch = 0;
+
+        let mut entrypoint = None;
+
+        let mut execution_model =
+            ProtocolExecutionModel::Embedded;
+
+        let mut color =
+            ProtocolColorSupport::None;
+
+        for raw_line in contents.lines() {
+            let line = raw_line.trim();
 
             if line.is_empty() || line.starts_with('#') {
                 continue;
             }
 
-            let Some((key, value)) = line.split_once('=') else {
+            let Some((key, value)) =
+                line.split_once('=')
+            else {
                 continue;
             };
 
@@ -83,38 +129,151 @@ impl CustomProtocolLoader {
             match key {
                 "id" => id = Some(value.to_string()),
                 "name" => name = Some(value.to_string()),
-                "author" => author = Some(value.to_string()),
-                "description" => description = Some(value.to_string()),
+                "author" => author = value.to_string(),
+                "description" => {
+                    description = value.to_string()
+                }
+                "homepage" => {
+                    homepage = Some(value.to_string())
+                }
+                "license" => {
+                    license = Some(value.to_string())
+                }
+
                 "version.major" => {
-                    version.major = value.parse().unwrap_or(0);
+                    major = value
+                        .parse()
+                        .map_err(|_| {
+                            "Invalid version.major"
+                                .to_string()
+                        })?;
                 }
+
                 "version.minor" => {
-                    version.minor = value.parse().unwrap_or(0);
+                    minor = value
+                        .parse()
+                        .map_err(|_| {
+                            "Invalid version.minor"
+                                .to_string()
+                        })?;
                 }
+
                 "version.patch" => {
-                    version.patch = value.parse().unwrap_or(0);
+                    patch = value
+                        .parse()
+                        .map_err(|_| {
+                            "Invalid version.patch"
+                                .to_string()
+                        })?;
                 }
+
+                "entrypoint" => {
+                    entrypoint = Some(value.to_string())
+                }
+
+                "execution_model" => {
+                    execution_model = match value {
+                        "external" |
+                        "external_process" => {
+                            ProtocolExecutionModel::ExternalProcess
+                        }
+                        "embedded" => {
+                            ProtocolExecutionModel::Embedded
+                        }
+                        "hybrid" => {
+                            ProtocolExecutionModel::Hybrid
+                        }
+                        other => {
+                            return Err(format!(
+                                "Unknown execution model: {other}"
+                            ));
+                        }
+                    };
+                }
+
+                "color" |
+                "color_support" => {
+                    color = match value {
+                        "none" => {
+                            ProtocolColorSupport::None
+                        }
+                        "basic8" => {
+                            ProtocolColorSupport::Basic8
+                        }
+                        "standard16" => {
+                            ProtocolColorSupport::Standard16
+                        }
+                        "indexed256" => {
+                            ProtocolColorSupport::Indexed256
+                        }
+                        "truecolor" => {
+                            ProtocolColorSupport::TrueColor
+                        }
+                        other => {
+                            return Err(format!(
+                                "Unknown color support: {other}"
+                            ));
+                        }
+                    };
+                }
+
                 _ => {}
             }
         }
 
         let id = id.ok_or_else(|| {
-            CustomProtocolError::InvalidManifest(
-                "missing protocol id".to_string(),
-            )
+            "Missing required field: id".to_string()
         })?;
 
-        let name = name.unwrap_or_else(|| id.clone());
+        let name = name.ok_or_else(|| {
+            "Missing required field: name".to_string()
+        })?;
 
-        let metadata = CustomProtocolMetadata::new(
-            author.unwrap_or_else(|| "Unknown".to_string()),
-            description.unwrap_or_default(),
-        );
+        let mut metadata =
+            CustomProtocolMetadata::new(
+                author,
+                description,
+            );
+
+        if let Some(homepage) = homepage {
+            metadata = metadata.homepage(homepage);
+        }
+
+        if let Some(license) = license {
+            metadata = metadata.license(license);
+        }
+
+        let mut capabilities =
+            CustomProtocolCapabilities::default();
+
+        capabilities.execution_model =
+            execution_model;
+
+        capabilities.color = color;
 
         let mut manifest =
-            CustomProtocolManifest::new(ProtocolId::new(id), name, metadata);
+            CustomProtocolManifest::new(
+                CustomProtocolId::new(id),
+                name,
+                metadata,
+                root,
+            );
 
-        manifest.set_version(version);
+        manifest.set_version(
+            CustomProtocolVersion::new(
+                major,
+                minor,
+                patch,
+            ),
+        );
+
+        manifest.set_capabilities(
+            capabilities,
+        );
+
+        if let Some(entrypoint) = entrypoint {
+            manifest.set_entrypoint(entrypoint);
+        }
 
         Ok(manifest)
     }
