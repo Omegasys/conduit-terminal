@@ -4,6 +4,21 @@ pub mod paths;
 pub mod registry;
 pub mod resource;
 
+pub mod shells;
+
+pub use shells::{
+    ShellDiscovery,
+    ShellDiscoveryResult,
+    ShellResourceChange,
+    ShellResourceEntry,
+    ShellResourceLoadResult,
+    ShellResourceLoader,
+    ShellResourceManifest,
+    ShellResourceMetadata,
+    ShellResourceRegistry,
+    ShellResourceWatcher,
+};
+
 pub use discovery::{
     ResourceDiscovery,
     ResourceDiscoveryEvent,
