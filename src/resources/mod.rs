@@ -3,8 +3,21 @@ pub mod manager;
 pub mod paths;
 pub mod registry;
 pub mod resource;
-
+pub mod protocols;
 pub mod shells;
+
+pub use protocols::{
+    ProtocolDiscovery,
+    ProtocolDiscoveryResult,
+    ProtocolResourceChange,
+    ProtocolResourceEntry,
+    ProtocolResourceLoadResult,
+    ProtocolResourceLoader,
+    ProtocolResourceManifest,
+    ProtocolResourceMetadata,
+    ProtocolResourceRegistry,
+    ProtocolResourceWatcher,
+};
 
 pub use shells::{
     ShellDiscovery,
