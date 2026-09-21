@@ -182,7 +182,6 @@ pub use custom::{
     CustomProtocolVersion,
     LoadedCustomProtocol,
     ProtocolColorSupport,
-    ProtocolDecodeResult,
     ProtocolEncodeResult,
     ProtocolExecutionModel,
     ProtocolParseResult,
