@@ -1,0 +1,54 @@
+//! Terminal protocol support for Conduit.
+//!
+//! This module provides protocol capability descriptions and escape-sequence
+//! decoding for ANSI, VT100, VT220, VT320, VT420, VT520, and xterm-style
+//! terminals.
+//!
+//! Protocol implementations intentionally normalize terminal sequences into
+//! shared actions so the terminal core does not need to know which protocol
+//! produced them.
+
+pub mod ansi;
+pub mod vt100;
+pub mod vt220;
+pub mod vt320;
+pub mod vt420;
+pub mod vt520;
+pub mod xterm;
+
+pub use ansi::{
+    AnsiAction,
+    AnsiDecoder,
+    AnsiParserState,
+};
+
+pub use vt100::{
+    Vt100Capabilities,
+    Vt100Protocol,
+};
+
+pub use vt220::{
+    Vt220Capabilities,
+    Vt220Protocol,
+};
+
+pub use vt320::{
+    Vt320Capabilities,
+    Vt320Protocol,
+};
+
+pub use vt420::{
+    Vt420Capabilities,
+    Vt420Protocol,
+};
+
+pub use vt520::{
+    Vt520Capabilities,
+    Vt520Protocol,
+};
+
+pub use xterm::{
+    XtermAction,
+    XtermCapabilities,
+    XtermProtocol,
+};
