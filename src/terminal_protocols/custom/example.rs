@@ -1,42 +1,65 @@
-use crate::terminal_protocols::custom::{
-    CustomProtocolAction,
-    CustomProtocolCapabilities,
-    CustomProtocolEvent,
-    CustomProtocolManifest,
-    CustomProtocolMetadata,
-    CustomProtocolResult,
-    CustomTerminalProtocol,
-    ProtocolContext,
-    ProtocolId,
-    ProtocolVersion,
+use super::{
+    capabilities::CustomProtocolCapabilities,
+    decoder::CustomProtocolDecoder,
+    encoder::CustomProtocolEncoder,
+    errors::CustomProtocolResult,
+    manifest::{
+        CustomProtocolManifest,
+        CustomProtocolMetadata,
+    },
+    parser::ProtocolParseResult,
+    protocol::{
+        CustomProtocol,
+        CustomProtocolId,
+        CustomProtocolVersion,
+    },
 };
 
 pub struct ExampleProtocol {
     manifest: CustomProtocolManifest,
-    capabilities: CustomProtocolCapabilities,
+    decoder: CustomProtocolDecoder,
+    encoder: CustomProtocolEncoder,
 }
 
 impl ExampleProtocol {
     pub fn new() -> Self {
-        let metadata = CustomProtocolMetadata::new(
-            "Conduit Example Author",
-            "Example custom terminal protocol.",
-        )
-        .license("GPL-3.0-or-later");
+        let metadata =
+            CustomProtocolMetadata::new(
+                "Conduit",
+                "Example custom terminal protocol.",
+            )
+            .license("GPLv3");
 
-        let mut manifest = CustomProtocolManifest::new(
-            ProtocolId::new("example-terminal"),
-            "Example Terminal Protocol",
-            metadata,
+        let mut manifest =
+            CustomProtocolManifest::new(
+                CustomProtocolId::new(
+                    "example-protocol",
+                ),
+                "Example Protocol",
+                metadata,
+                ".",
+            );
+
+        manifest.set_version(
+            CustomProtocolVersion::new(
+                1,
+                0,
+                0,
+            ),
         );
 
-        manifest.set_version(ProtocolVersion::new(1, 0, 0));
+        manifest.set_capabilities(
+            CustomProtocolCapabilities::terminal(),
+        );
 
-        let capabilities = CustomProtocolCapabilities::modern_terminal();
+        manifest.set_entrypoint(
+            "src/protocol.rs",
+        );
 
         Self {
             manifest,
-            capabilities,
+            decoder: CustomProtocolDecoder::new(),
+            encoder: CustomProtocolEncoder::new(),
         }
     }
 }
@@ -47,13 +70,13 @@ impl Default for ExampleProtocol {
     }
 }
 
-impl CustomTerminalProtocol for ExampleProtocol {
-    fn id(&self) -> ProtocolId {
+impl CustomProtocol for ExampleProtocol {
+    fn id(&self) -> CustomProtocolId {
         self.manifest.id().clone()
     }
 
-    fn version(&self) -> ProtocolVersion {
-        self.manifest.version().clone()
+    fn version(&self) -> CustomProtocolVersion {
+        self.manifest.version()
     }
 
     fn manifest(&self) -> CustomProtocolManifest {
@@ -61,30 +84,43 @@ impl CustomTerminalProtocol for ExampleProtocol {
     }
 
     fn capabilities(&self) -> CustomProtocolCapabilities {
-        self.capabilities.clone()
+        self.manifest.capabilities().clone()
+    }
+
+    fn decoder(&self) -> &CustomProtocolDecoder {
+        &self.decoder
+    }
+
+    fn decoder_mut(
+        &mut self,
+    ) -> &mut CustomProtocolDecoder {
+        &mut self.decoder
+    }
+
+    fn encoder(&self) -> &CustomProtocolEncoder {
+        &self.encoder
+    }
+
+    fn encoder_mut(
+        &mut self,
+    ) -> &mut CustomProtocolEncoder {
+        &mut self.encoder
+    }
+
+    fn initialize(
+        &mut self,
+    ) -> CustomProtocolResult<()> {
+        Ok(())
     }
 
     fn reset(&mut self) {
-        // Reset protocol-specific state here.
+        self.decoder.reset();
     }
 
-    fn feed(
+    fn parse(
         &mut self,
-        bytes: &[u8],
-        _context: &mut ProtocolContext,
-    ) -> CustomProtocolResult<Vec<CustomProtocolEvent>> {
-        let text = String::from_utf8_lossy(bytes);
-
-        Ok(vec![CustomProtocolEvent::Action(
-            CustomProtocolAction::Print(text.into_owned()),
-        )])
-    }
-
-    fn handle_action(
-        &mut self,
-        action: CustomProtocolAction,
-        _context: &mut ProtocolContext,
-    ) -> CustomProtocolResult<Vec<CustomProtocolEvent>> {
-        Ok(vec![CustomProtocolEvent::Action(action)])
+        input: &[u8],
+    ) -> CustomProtocolResult<ProtocolParseResult> {
+        self.decoder.decode(input)
     }
 }
