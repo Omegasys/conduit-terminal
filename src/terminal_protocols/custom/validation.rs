@@ -1,84 +1,90 @@
 use super::{
     manifest::CustomProtocolManifest,
-    protocol::CustomTerminalProtocol,
+    protocol::CustomProtocol,
 };
 
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
-pub enum ValidationSeverity {
+#[derive(Debug, Clone, Copy, PartialEq, Eq)]
+pub enum ProtocolValidationSeverity {
     Warning,
     Error,
 }
 
-#[derive(Clone, Debug)]
-pub struct ValidationIssue {
-    pub severity: ValidationSeverity,
+#[derive(Debug, Clone)]
+pub struct ProtocolValidationIssue {
+    pub severity: ProtocolValidationSeverity,
     pub field: String,
     pub message: String,
 }
 
-impl ValidationIssue {
-    pub fn warning<S1, S2>(field: S1, message: S2) -> Self
-    where
-        S1: Into<String>,
-        S2: Into<String>,
-    {
+impl ProtocolValidationIssue {
+    pub fn warning(
+        field: impl Into<String>,
+        message: impl Into<String>,
+    ) -> Self {
         Self {
-            severity: ValidationSeverity::Warning,
+            severity: ProtocolValidationSeverity::Warning,
             field: field.into(),
             message: message.into(),
         }
     }
 
-    pub fn error<S1, S2>(field: S1, message: S2) -> Self
-    where
-        S1: Into<String>,
-        S2: Into<String>,
-    {
+    pub fn error(
+        field: impl Into<String>,
+        message: impl Into<String>,
+    ) -> Self {
         Self {
-            severity: ValidationSeverity::Error,
+            severity: ProtocolValidationSeverity::Error,
             field: field.into(),
             message: message.into(),
         }
     }
 
     pub fn is_error(&self) -> bool {
-        matches!(self.severity, ValidationSeverity::Error)
+        self.severity == ProtocolValidationSeverity::Error
     }
 }
 
-#[derive(Clone, Debug, Default)]
-pub struct ValidationResult {
-    issues: Vec<ValidationIssue>,
+#[derive(Debug, Default)]
+pub struct ProtocolValidationResult {
+    issues: Vec<ProtocolValidationIssue>,
 }
 
-impl ValidationResult {
-    pub fn add(&mut self, issue: ValidationIssue) {
+impl ProtocolValidationResult {
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    pub fn add(
+        &mut self,
+        issue: ProtocolValidationIssue,
+    ) {
         self.issues.push(issue);
     }
 
-    pub fn issues(&self) -> &[ValidationIssue] {
+    pub fn issues(
+        &self,
+    ) -> &[ProtocolValidationIssue] {
         &self.issues
     }
 
-    pub fn errors(&self) -> Vec<&ValidationIssue> {
-        self.issues.iter().filter(|i| i.is_error()).collect()
-    }
-
-    pub fn warnings(&self) -> Vec<&ValidationIssue> {
+    pub fn errors(
+        &self,
+    ) -> impl Iterator<Item = &ProtocolValidationIssue> {
         self.issues
             .iter()
-            .filter(|i| !i.is_error())
-            .collect()
+            .filter(|issue| issue.is_error())
+    }
+
+    pub fn warnings(
+        &self,
+    ) -> impl Iterator<Item = &ProtocolValidationIssue> {
+        self.issues
+            .iter()
+            .filter(|issue| !issue.is_error())
     }
 
     pub fn has_errors(&self) -> bool {
-        self.issues.iter().any(ValidationIssue::is_error)
-    }
-
-    pub fn has_warnings(&self) -> bool {
-        self.issues
-            .iter()
-            .any(|issue| !issue.is_error())
+        self.issues.iter().any(|issue| issue.is_error())
     }
 
     pub fn is_valid(&self) -> bool {
@@ -96,35 +102,52 @@ impl CustomProtocolValidator {
     pub fn validate_manifest(
         &self,
         manifest: &CustomProtocolManifest,
-    ) -> ValidationResult {
-        let mut result = ValidationResult::default();
+    ) -> ProtocolValidationResult {
+        let mut result = ProtocolValidationResult::new();
 
-        if manifest.id().as_str().is_empty() {
-            result.add(ValidationIssue::error(
-                "id",
-                "protocol ID cannot be empty",
-            ));
+        if manifest.id().as_str().trim().is_empty() {
+            result.add(
+                ProtocolValidationIssue::error(
+                    "id",
+                    "Protocol ID cannot be empty.",
+                ),
+            );
         }
 
         if manifest.name().trim().is_empty() {
-            result.add(ValidationIssue::error(
-                "name",
-                "protocol name cannot be empty",
-            ));
+            result.add(
+                ProtocolValidationIssue::error(
+                    "name",
+                    "Protocol name cannot be empty.",
+                ),
+            );
         }
 
         if manifest.metadata().author.trim().is_empty() {
-            result.add(ValidationIssue::warning(
-                "author",
-                "protocol author is not specified",
-            ));
+            result.add(
+                ProtocolValidationIssue::warning(
+                    "author",
+                    "Protocol author is empty.",
+                ),
+            );
         }
 
         if manifest.metadata().description.trim().is_empty() {
-            result.add(ValidationIssue::warning(
-                "description",
-                "protocol description is empty",
-            ));
+            result.add(
+                ProtocolValidationIssue::warning(
+                    "description",
+                    "Protocol description is empty.",
+                ),
+            );
+        }
+
+        if manifest.entrypoint().is_none() {
+            result.add(
+                ProtocolValidationIssue::warning(
+                    "entrypoint",
+                    "No protocol entrypoint was declared.",
+                ),
+            );
         }
 
         result
@@ -132,8 +155,8 @@ impl CustomProtocolValidator {
 
     pub fn validate_protocol(
         &self,
-        protocol: &dyn CustomTerminalProtocol,
-    ) -> ValidationResult {
+        protocol: &dyn CustomProtocol,
+    ) -> ProtocolValidationResult {
         self.validate_manifest(&protocol.manifest())
     }
 }
