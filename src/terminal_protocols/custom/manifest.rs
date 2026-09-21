@@ -1,77 +1,90 @@
 use std::collections::BTreeMap;
+use std::path::PathBuf;
 
 use super::{
     capabilities::CustomProtocolCapabilities,
-    protocol::{ProtocolId, ProtocolVersion},
+    protocol::{
+        CustomProtocolId,
+        CustomProtocolVersion,
+    },
 };
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CustomProtocolMetadata {
     pub author: String,
-    pub homepage: Option<String>,
     pub description: String,
+    pub homepage: Option<String>,
     pub license: Option<String>,
 }
 
 impl CustomProtocolMetadata {
-    pub fn new<S1, S2>(author: S1, description: S2) -> Self
-    where
-        S1: Into<String>,
-        S2: Into<String>,
-    {
+    pub fn new(
+        author: impl Into<String>,
+        description: impl Into<String>,
+    ) -> Self {
         Self {
             author: author.into(),
-            homepage: None,
             description: description.into(),
+            homepage: None,
             license: None,
         }
     }
 
-    pub fn homepage<S: Into<String>>(mut self, value: S) -> Self {
-        self.homepage = Some(value.into());
+    pub fn homepage(
+        mut self,
+        homepage: impl Into<String>,
+    ) -> Self {
+        self.homepage = Some(homepage.into());
         self
     }
 
-    pub fn license<S: Into<String>>(mut self, value: S) -> Self {
-        self.license = Some(value.into());
+    pub fn license(
+        mut self,
+        license: impl Into<String>,
+    ) -> Self {
+        self.license = Some(license.into());
         self
     }
 }
 
-#[derive(Clone, Debug)]
+#[derive(Debug, Clone, PartialEq, Eq)]
 pub struct CustomProtocolManifest {
-    id: ProtocolId,
+    id: CustomProtocolId,
     name: String,
-    version: ProtocolVersion,
+    version: CustomProtocolVersion,
+
     metadata: CustomProtocolMetadata,
     capabilities: CustomProtocolCapabilities,
+
     entrypoint: Option<String>,
-    dependencies: Vec<ProtocolId>,
+
+    dependencies: Vec<String>,
     settings: BTreeMap<String, String>,
+
+    root_path: PathBuf,
 }
 
 impl CustomProtocolManifest {
-    pub fn new<S1, S2>(
-        id: ProtocolId,
-        name: S1,
+    pub fn new(
+        id: CustomProtocolId,
+        name: impl Into<String>,
         metadata: CustomProtocolMetadata,
-    ) -> Self
-    where
-        S1: Into<String>,
-    {
+        root_path: impl Into<PathBuf>,
+    ) -> Self {
         Self {
             id,
             name: name.into(),
-            version: ProtocolVersion::initial(),
+            version: CustomProtocolVersion::initial(),
             metadata,
             capabilities: CustomProtocolCapabilities::default(),
             entrypoint: None,
             dependencies: Vec::new(),
             settings: BTreeMap::new(),
+            root_path: root_path.into(),
         }
     }
 
-    pub fn id(&self) -> &ProtocolId {
+    pub fn id(&self) -> &CustomProtocolId {
         &self.id
     }
 
@@ -79,8 +92,8 @@ impl CustomProtocolManifest {
         &self.name
     }
 
-    pub fn version(&self) -> &ProtocolVersion {
-        &self.version
+    pub fn version(&self) -> CustomProtocolVersion {
+        self.version
     }
 
     pub fn metadata(&self) -> &CustomProtocolMetadata {
@@ -95,7 +108,7 @@ impl CustomProtocolManifest {
         self.entrypoint.as_deref()
     }
 
-    pub fn dependencies(&self) -> &[ProtocolId] {
+    pub fn dependencies(&self) -> &[String] {
         &self.dependencies
     }
 
@@ -103,29 +116,46 @@ impl CustomProtocolManifest {
         &self.settings
     }
 
-    pub fn set_version(&mut self, version: ProtocolVersion) {
+    pub fn root_path(&self) -> &PathBuf {
+        &self.root_path
+    }
+
+    pub fn set_version(
+        &mut self,
+        version: CustomProtocolVersion,
+    ) {
         self.version = version;
     }
 
-    pub fn set_capabilities(&mut self, capabilities: CustomProtocolCapabilities) {
+    pub fn set_capabilities(
+        &mut self,
+        capabilities: CustomProtocolCapabilities,
+    ) {
         self.capabilities = capabilities;
     }
 
-    pub fn set_entrypoint<S: Into<String>>(&mut self, entrypoint: S) {
+    pub fn set_entrypoint(
+        &mut self,
+        entrypoint: impl Into<String>,
+    ) {
         self.entrypoint = Some(entrypoint.into());
     }
 
-    pub fn add_dependency(&mut self, dependency: ProtocolId) {
-        if !self.dependencies.contains(&dependency) {
-            self.dependencies.push(dependency);
-        }
+    pub fn add_dependency(
+        &mut self,
+        dependency: impl Into<String>,
+    ) {
+        self.dependencies.push(dependency.into());
     }
 
-    pub fn set_setting<S1, S2>(&mut self, key: S1, value: S2)
-    where
-        S1: Into<String>,
-        S2: Into<String>,
-    {
-        self.settings.insert(key.into(), value.into());
+    pub fn set_setting(
+        &mut self,
+        key: impl Into<String>,
+        value: impl Into<String>,
+    ) {
+        self.settings.insert(
+            key.into(),
+            value.into(),
+        );
     }
 }
