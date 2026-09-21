@@ -1,68 +1,106 @@
-use std::{fmt, io};
-
-use super::protocol::ProtocolId;
+use std::fmt;
+use std::io;
 
 #[derive(Debug)]
 pub enum CustomProtocolError {
     Io(io::Error),
 
     InvalidManifest(String),
-
     InvalidProtocol(String),
 
     AlreadyRegistered(String),
-
     NotFound(String),
 
-    SequenceTooLong {
+    BufferTooLarge {
         maximum: usize,
     },
 
     Parser(String),
+    Encoder(String),
+    Decoder(String),
 
     SecurityDenied(String),
-
     Unsupported(String),
+
+    InitializationFailed(String),
 }
 
 impl fmt::Display for CustomProtocolError {
-    fn fmt(&self, f: &mut fmt::Formatter<'_>) -> fmt::Result {
+    fn fmt(
+        &self,
+        formatter: &mut fmt::Formatter<'_>,
+    ) -> fmt::Result {
         match self {
-            Self::Io(error) => write!(f, "I/O error: {error}"),
+            Self::Io(error) => {
+                write!(formatter, "I/O error: {error}")
+            }
 
             Self::InvalidManifest(message) => {
-                write!(f, "invalid protocol manifest: {message}")
+                write!(
+                    formatter,
+                    "Invalid protocol manifest: {message}"
+                )
             }
 
             Self::InvalidProtocol(message) => {
-                write!(f, "invalid protocol: {message}")
+                write!(
+                    formatter,
+                    "Invalid protocol: {message}"
+                )
             }
 
             Self::AlreadyRegistered(id) => {
-                write!(f, "protocol already registered: {id}")
+                write!(
+                    formatter,
+                    "Protocol already registered: {id}"
+                )
             }
 
             Self::NotFound(id) => {
-                write!(f, "protocol not found: {id}")
+                write!(
+                    formatter,
+                    "Protocol not found: {id}"
+                )
             }
 
-            Self::SequenceTooLong { maximum } => {
+            Self::BufferTooLarge { maximum } => {
                 write!(
-                    f,
-                    "protocol sequence exceeds maximum length of {maximum} bytes"
+                    formatter,
+                    "Protocol buffer exceeded maximum size of {maximum} bytes"
                 )
             }
 
             Self::Parser(message) => {
-                write!(f, "protocol parser error: {message}")
+                write!(formatter, "Protocol parser error: {message}")
+            }
+
+            Self::Encoder(message) => {
+                write!(formatter, "Protocol encoder error: {message}")
+            }
+
+            Self::Decoder(message) => {
+                write!(formatter, "Protocol decoder error: {message}")
             }
 
             Self::SecurityDenied(message) => {
-                write!(f, "protocol security operation denied: {message}")
+                write!(
+                    formatter,
+                    "Protocol security permission denied: {message}"
+                )
             }
 
             Self::Unsupported(message) => {
-                write!(f, "unsupported protocol feature: {message}")
+                write!(
+                    formatter,
+                    "Unsupported protocol feature: {message}"
+                )
+            }
+
+            Self::InitializationFailed(message) => {
+                write!(
+                    formatter,
+                    "Protocol initialization failed: {message}"
+                )
             }
         }
     }
@@ -76,10 +114,5 @@ impl From<io::Error> for CustomProtocolError {
     }
 }
 
-pub type CustomProtocolResult<T> = Result<T, CustomProtocolError>;
-
-impl From<ProtocolId> for CustomProtocolError {
-    fn from(id: ProtocolId) -> Self {
-        Self::NotFound(id.to_string())
-    }
-}
+pub type CustomProtocolResult<T> =
+    Result<T, CustomProtocolError>;
