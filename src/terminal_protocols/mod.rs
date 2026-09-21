@@ -143,3 +143,20 @@ pub use sixel::{
     SixelPalette,
     SixelState,
 };
+pub mod custom;
+
+pub use custom::{
+    CustomProtocolAction,
+    CustomProtocolCapabilities,
+    CustomProtocolError,
+    CustomProtocolEvent,
+    CustomProtocolLoader,
+    CustomProtocolManifest,
+    CustomProtocolParser,
+    CustomProtocolRegistry,
+    CustomTerminalProtocol,
+    ProtocolContext,
+    ProtocolId,
+    ProtocolRegistration,
+    ProtocolVersion,
+};
