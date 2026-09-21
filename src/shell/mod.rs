@@ -75,3 +75,34 @@ pub use prompt::{
 };
 
 pub use zsh::ZshIntegration;
+pub mod custom;
+
+pub use custom::{
+    CustomCommand,
+    CustomCommandResult,
+    CustomPrompt,
+    CustomPromptState,
+    CustomShell,
+    CustomShellCapabilities,
+    CustomShellConfiguration,
+    CustomShellEnvironment,
+    CustomShellError,
+    CustomShellHistory,
+    CustomShellId,
+    CustomShellLoader,
+    CustomShellManifest,
+    CustomShellMetadata,
+    CustomShellParser,
+    CustomShellRegistry,
+    CustomShellSecurityPolicy,
+    CustomShellValidator,
+    CustomShellVersion,
+    EnvironmentOperation,
+    LoadedCustomShell,
+    ShellColorSupport,
+    ShellExecutionModel,
+    ShellPermission,
+    ShellRegistration,
+    ShellValidationIssue,
+    ShellValidationResult,
+};
