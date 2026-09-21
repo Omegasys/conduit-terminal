@@ -3,6 +3,7 @@
 //! The library contains the shared core used by Conduit's GUI, TUI,
 //! and CLI interfaces.
 
+pub mod terminal_protocols;
 pub mod renderer;
 pub mod cli;
 pub mod config_engine;
