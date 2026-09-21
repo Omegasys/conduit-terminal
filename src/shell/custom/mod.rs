@@ -13,6 +13,12 @@ pub mod registry;
 pub mod security;
 pub mod shell;
 pub mod validation;
+pub mod resource;
+
+pub use resource::{
+    CustomShellResource,
+    CustomShellResourceManager,
+};
 
 pub use capabilities::{
     CustomShellCapabilities,
