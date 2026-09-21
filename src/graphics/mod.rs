@@ -6,6 +6,13 @@ pub mod protocols;
 pub mod scaling;
 pub mod sixel;
 
+pub use protocols::{
+    GraphicsCommand,
+    GraphicsProtocol,
+    GraphicsProtocolKind,
+    GraphicsProtocolRegistry,
+};
+
 pub use image::{
     Image,
     ImageData,
