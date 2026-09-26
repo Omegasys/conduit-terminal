@@ -1,0 +1,54 @@
+id = "gruvbox"
+name = "Gruvbox"
+version = "1.0.0"
+description = "A warm, retro-inspired Gruvbox terminal theme."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[colors]
+background = "#282828"
+foreground = "#EBDBB2"
+cursor = "#EBDBB2"
+selection_background = "#504945"
+selection_foreground = "#FBF1C7"
+
+black = "#282828"
+red = "#CC241D"
+green = "#98971A"
+yellow = "#D79921"
+blue = "#458588"
+magenta = "#B16286"
+cyan = "#689D6A"
+white = "#A89984"
+
+bright_black = "#928374"
+bright_red = "#FB4934"
+bright_green = "#B8BB26"
+bright_yellow = "#FABD2F"
+bright_blue = "#83A598"
+bright_magenta = "#D3869B"
+bright_cyan = "#8EC07C"
+bright_white = "#EBDBB2"
+
+[ui]
+border = "#504945"
+active_border = "#D79921"
+tab_active = "#3C3836"
+tab_inactive = "#282828"
+status_bar = "#3C3836"
+sidebar = "#24211F"
+menu = "#3C3836"
+
+[text]
+font_size = 13
+line_height = 1.2
+bold = true
+italic = true
+
+[cursor]
+style = "Block"
+blink = true
+blink_interval_ms = 500
+
+[selection]
+style = "Block"
