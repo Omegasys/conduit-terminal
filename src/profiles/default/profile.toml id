@@ -1,0 +1,35 @@
+id = "default"
+name = "Default"
+version = "1.0.0"
+description = "Conduit's standard profile."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[theme]
+name = "default"
+
+[terminal]
+scrollback_lines = 10000
+copy_on_select = false
+confirm_close = true
+bell = true
+audible_bell = false
+
+[shell]
+inherit_environment = true
+login_shell = false
+interactive_shell = true
+
+[ui]
+show_menu = true
+show_toolbar = true
+show_tab_bar = true
+show_sidebar = true
+show_status_bar = true
+
+[security]
+safe_mode = false
+hardened_mode = false
+allow_plugins = true
+allow_hyperlinks = true
+allow_clipboard = true
