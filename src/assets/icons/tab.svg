@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Tab</title>
+  <path d="M10 20h18l6 7h20v25H10z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M10 20h18l6 7" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+</svg>
