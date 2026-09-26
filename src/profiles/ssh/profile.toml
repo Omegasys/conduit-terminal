@@ -1,0 +1,46 @@
+id = "ssh"
+name = "SSH"
+version = "1.0.0"
+description = "A profile optimized for interactive SSH sessions."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[theme]
+name = "nord"
+
+[terminal]
+scrollback_lines = 20000
+copy_on_select = false
+confirm_close = true
+bell = true
+audible_bell = false
+
+[shell]
+inherit_environment = false
+login_shell = true
+interactive_shell = true
+
+[ui]
+show_menu = true
+show_toolbar = false
+show_tab_bar = true
+show_sidebar = false
+show_status_bar = true
+
+[ssh]
+enabled = true
+agent_forwarding = false
+x11_forwarding = false
+compression = true
+keepalive = true
+keepalive_interval_seconds = 30
+strict_host_key_checking = true
+
+[security]
+safe_mode = false
+hardened_mode = true
+allow_plugins = false
+allow_hyperlinks = false
+allow_clipboard = true
+allow_filesystem_integration = false
+allow_system_integration = false
