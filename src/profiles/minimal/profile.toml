@@ -1,0 +1,35 @@
+id = "minimal"
+name = "Minimal"
+version = "1.0.0"
+description = "A lightweight profile with reduced interface chrome."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[theme]
+name = "default"
+
+[terminal]
+scrollback_lines = 5000
+copy_on_select = false
+confirm_close = true
+bell = false
+audible_bell = false
+
+[shell]
+inherit_environment = true
+login_shell = false
+interactive_shell = true
+
+[ui]
+show_menu = false
+show_toolbar = false
+show_tab_bar = true
+show_sidebar = false
+show_status_bar = false
+
+[security]
+safe_mode = false
+hardened_mode = false
+allow_plugins = true
+allow_hyperlinks = true
+allow_clipboard = true
