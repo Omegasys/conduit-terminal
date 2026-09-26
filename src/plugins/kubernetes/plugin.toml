@@ -1,0 +1,33 @@
+[metadata]
+id = "kubernetes"
+name = "Kubernetes Integration"
+version = "1.0.0"
+description = "Kubernetes cluster, namespace, pod, and terminal integration for Conduit."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+plugin_type = "Native"
+entrypoint = "libkubernetes.so"
+
+permissions = [
+    "ReadConfiguration",
+    "ReadFilesystem",
+    "AccessEnvironment",
+    "AccessTerminal",
+    "AccessPanes",
+    "AccessTabs",
+    "AccessSessions",
+    "ExecuteCommands",
+    "SpawnProcess",
+    "Network",
+    "LocalNetwork"
+]
+
+[dependencies]
+conduit = ">=1.0.0"
+
+[configuration]
+enabled = "true"
+kubectl_command = "kubectl"
+show_context = "true"
+show_namespace = "true"
