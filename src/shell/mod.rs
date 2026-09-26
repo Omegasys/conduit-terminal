@@ -21,6 +21,7 @@ pub mod zsh;
 pub mod registry;
 pub mod experimental;
 pub mod microsoft;
+pub mod custom;
 
 pub use capabilities::{
     CapabilityLevel, ShellCapabilities, ShellCapability,
