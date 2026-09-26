@@ -1,0 +1,29 @@
+[metadata]
+id = "git"
+name = "Git Integration"
+version = "1.0.0"
+description = "Git repository awareness and terminal integration for Conduit."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+plugin_type = "Native"
+entrypoint = "libgit.so"
+
+permissions = [
+    "ReadFilesystem",
+    "ReadConfiguration",
+    "AccessEnvironment",
+    "AccessTerminal",
+    "AccessPanes",
+    "AccessTabs",
+    "ExecuteCommands"
+]
+
+[dependencies]
+conduit = ">=1.0.0"
+
+[configuration]
+enabled = "true"
+show_branch = "true"
+show_status = "true"
+show_repository = "true"
