@@ -1,0 +1,17 @@
+plugin_type = "Native"
+entrypoint = "librestricted_plugin.so"
+
+permissions = [
+    "AccessTerminal",
+]
+
+[metadata]
+id = "example.restricted"
+name = "Restricted Plugin Example"
+version = "1.0.0"
+description = "Demonstrates least-privilege plugin operation and permission checks."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[configuration]
+enabled = "true"
