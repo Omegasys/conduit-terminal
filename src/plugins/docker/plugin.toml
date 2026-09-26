@@ -1,0 +1,31 @@
+[metadata]
+id = "docker"
+name = "Docker Integration"
+version = "1.0.0"
+description = "Docker container management and terminal integration for Conduit."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+plugin_type = "Native"
+entrypoint = "libdocker.so"
+
+permissions = [
+    "ReadConfiguration",
+    "ReadFilesystem",
+    "AccessEnvironment",
+    "AccessTerminal",
+    "AccessPanes",
+    "AccessTabs",
+    "ExecuteCommands",
+    "SpawnProcess",
+    "LocalNetwork"
+]
+
+[dependencies]
+conduit = ">=1.0.0"
+
+[configuration]
+enabled = "true"
+docker_command = "docker"
+show_containers = "true"
+show_images = "true"
