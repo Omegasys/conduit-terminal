@@ -1,0 +1,22 @@
+[Desktop Entry]
+Type=Application
+Name=Conduit
+GenericName=Terminal Emulator
+Comment=A terminal built around the flow of information
+Exec=conduit %U
+Icon=conduit
+Terminal=false
+Categories=System;TerminalEmulator;Utility;
+Keywords=terminal;shell;console;ssh;workspace;conduit;
+StartupNotify=true
+StartupWMClass=conduit
+MimeType=x-scheme-handler/ssh;x-scheme-handler/telnet;
+Actions=new-window;new-tab;
+
+[Desktop Action new-window]
+Name=New Window
+Exec=conduit --new-window
+
+[Desktop Action new-tab]
+Name=New Tab
+Exec=conduit --new-tab
