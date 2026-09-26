@@ -1,0 +1,21 @@
+plugin_type = "Native"
+entrypoint = "libcommand_plugin.so"
+
+permissions = [
+    "ReadConfiguration",
+    "AccessTerminal",
+    "AccessPanes",
+    "ExecuteCommands",
+]
+
+[metadata]
+id = "example.command"
+name = "Command Plugin Example"
+version = "1.0.0"
+description = "Demonstrates a plugin that integrates with terminal commands."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[configuration]
+enabled = "true"
+command = "echo"
