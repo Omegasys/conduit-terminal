@@ -1,0 +1,40 @@
+id = "server"
+name = "Server"
+version = "1.0.0"
+description = "A workspace for local server administration."
+profile = "hardened"
+theme = "nord"
+
+[layout]
+type = "split"
+direction = "vertical"
+
+[[panes]]
+id = "shell"
+size = 0.60
+working_directory = "~"
+
+[[panes]]
+id = "monitor"
+size = 0.40
+working_directory = "~"
+
+[terminal]
+shell = "auto"
+scrollback_lines = 20000
+
+[ui]
+show_sidebar = false
+show_status_bar = true
+show_tab_bar = true
+
+[security]
+safe_mode = true
+hardened_mode = true
+confirm_external_commands = true
+
+[restore]
+enabled = true
+restore_tabs = true
+restore_panes = true
+restore_working_directories = true
