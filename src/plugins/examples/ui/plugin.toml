@@ -1,0 +1,23 @@
+plugin_type = "Native"
+entrypoint = "libui_plugin.so"
+
+permissions = [
+    "ReadConfiguration",
+    "AccessWindows",
+    "AccessTabs",
+    "AccessPanes",
+]
+
+[metadata]
+id = "example.ui"
+name = "UI Plugin Example"
+version = "1.0.0"
+description = "Demonstrates a plugin that observes Conduit UI resources."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[configuration]
+enabled = "true"
+observe_windows = "true"
+observe_tabs = "true"
+observe_panes = "true"
