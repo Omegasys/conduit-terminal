@@ -1,0 +1,26 @@
+id = "default"
+name = "Default"
+version = "1.0.0"
+description = "Conduit's standard workspace."
+profile = "default"
+theme = "default"
+
+[layout]
+type = "single"
+direction = "horizontal"
+
+[terminal]
+shell = "auto"
+working_directory = "~"
+scrollback_lines = 10000
+
+[ui]
+show_sidebar = true
+show_status_bar = true
+show_tab_bar = true
+
+[restore]
+enabled = true
+restore_tabs = true
+restore_panes = true
+restore_working_directories = true
