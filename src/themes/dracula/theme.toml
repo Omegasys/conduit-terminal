@@ -1,0 +1,54 @@
+id = "dracula"
+name = "Dracula"
+version = "1.0.0"
+description = "A dark Dracula-inspired terminal theme."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[colors]
+background = "#282A36"
+foreground = "#F8F8F2"
+cursor = "#F8F8F2"
+selection_background = "#44475A"
+selection_foreground = "#FFFFFF"
+
+black = "#21222C"
+red = "#FF5555"
+green = "#50FA7B"
+yellow = "#F1FA8C"
+blue = "#BD93F9"
+magenta = "#FF79C6"
+cyan = "#8BE9FD"
+white = "#F8F8F2"
+
+bright_black = "#6272A4"
+bright_red = "#FF6E6E"
+bright_green = "#69FF94"
+bright_yellow = "#FFFFA5"
+bright_blue = "#D6ACFF"
+bright_magenta = "#FF92D0"
+bright_cyan = "#A4FFFF"
+bright_white = "#FFFFFF"
+
+[ui]
+border = "#44475A"
+active_border = "#BD93F9"
+tab_active = "#44475A"
+tab_inactive = "#282A36"
+status_bar = "#21222C"
+sidebar = "#20212B"
+menu = "#343746"
+
+[text]
+font_size = 13
+line_height = 1.2
+bold = true
+italic = true
+
+[cursor]
+style = "Block"
+blink = true
+blink_interval_ms = 500
+
+[selection]
+style = "Block"
