@@ -1,0 +1,19 @@
+plugin_type = "Native"
+entrypoint = "libbasic_plugin.so"
+
+permissions = [
+    "ReadConfiguration",
+    "AccessTerminal",
+]
+
+[metadata]
+id = "example.basic"
+name = "Basic Plugin Example"
+version = "1.0.0"
+description = "A minimal Conduit plugin demonstrating the basic plugin lifecycle."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[configuration]
+enabled = "true"
+message = "Hello from the Basic Plugin"
