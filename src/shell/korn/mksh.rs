@@ -31,7 +31,7 @@ impl KornShellAdapter for Mksh {
         capabilities.scripting = CapabilityLevel::Full;
         capabilities.posix_compatible = CapabilityLevel::Full;
         capabilities.programmable_prompt = CapabilityLevel::Basic;
-        capabilities.prompt_hooks = CapabilityLevel.Basic;
+        capabilities.prompt_hooks = CapabilityLevel::Basic;
         capabilities.command_hooks = CapabilityLevel::Unsupported;
         capabilities.directory_hooks = CapabilityLevel::Basic;
         capabilities.native_history = CapabilityLevel::Basic;
