@@ -1,0 +1,54 @@
+id = "cyberpunk"
+name = "Cyberpunk"
+version = "1.0.0"
+description = "A high-contrast cyberpunk-inspired Conduit theme."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[colors]
+background = "#080B12"
+foreground = "#D9E2F2"
+cursor = "#FF6B35"
+selection_background = "#263248"
+selection_foreground = "#FFFFFF"
+
+black = "#080B12"
+red = "#FF4D6D"
+green = "#4DFF88"
+yellow = "#FFD166"
+blue = "#4DA3FF"
+magenta = "#D16BFF"
+cyan = "#3DE7FF"
+white = "#C7D2E3"
+
+bright_black = "#354052"
+bright_red = "#FF718A"
+bright_green = "#72FF9F"
+bright_yellow = "#FFE08A"
+bright_blue = "#70B7FF"
+bright_magenta = "#E19AFF"
+bright_cyan = "#70EEFF"
+bright_white = "#FFFFFF"
+
+[ui]
+border = "#263248"
+active_border = "#FF6B35"
+tab_active = "#121A28"
+tab_inactive = "#090D15"
+status_bar = "#0D131E"
+sidebar = "#0A101A"
+menu = "#111927"
+
+[text]
+font_size = 13
+line_height = 1.2
+bold = true
+italic = true
+
+[cursor]
+style = "Bar"
+blink = true
+blink_interval_ms = 450
+
+[selection]
+style = "Block"
