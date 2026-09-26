@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>History</title>
+  <path d="M12 29a21 21 0 1 1 5 15" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+  <path d="M12 17v12h12" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M32 20v13l9 6" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
