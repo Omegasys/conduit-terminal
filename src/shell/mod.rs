@@ -12,6 +12,12 @@ pub mod environment;
 pub mod integration;
 pub mod manifest;
 pub mod prompt;
+pub mod c_shell;
+pub mod fish;
+pub mod korn;
+pub mod modern;
+pub mod posix;
+pub mod zsh;
 pub mod registry;
 
 pub use capabilities::{
