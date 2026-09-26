@@ -1,0 +1,54 @@
+id = "nord"
+name = "Nord"
+version = "1.0.0"
+description = "A Nord-inspired cool, muted terminal theme."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[colors]
+background = "#2E3440"
+foreground = "#D8DEE9"
+cursor = "#D8DEE9"
+selection_background = "#434C5E"
+selection_foreground = "#ECEFF4"
+
+black = "#3B4252"
+red = "#BF616A"
+green = "#A3BE8C"
+yellow = "#EBCB8B"
+blue = "#81A1C1"
+magenta = "#B48EAD"
+cyan = "#88C0D0"
+white = "#E5E9F0"
+
+bright_black = "#4C566A"
+bright_red = "#D57780"
+bright_green = "#B1D39A"
+bright_yellow = "#F2D89B"
+bright_blue = "#8FABC9"
+bright_magenta = "#C6A5BF"
+bright_cyan = "#8FCCE0"
+bright_white = "#ECEFF4"
+
+[ui]
+border = "#434C5E"
+active_border = "#88C0D0"
+tab_active = "#3B4252"
+tab_inactive = "#2E3440"
+status_bar = "#3B4252"
+sidebar = "#272C36"
+menu = "#3B4252"
+
+[text]
+font_size = 13
+line_height = 1.2
+bold = true
+italic = true
+
+[cursor]
+style = "Block"
+blink = true
+blink_interval_ms = 500
+
+[selection]
+style = "Block"
