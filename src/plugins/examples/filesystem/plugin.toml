@@ -1,0 +1,19 @@
+plugin_type = "Native"
+entrypoint = "libfilesystem_plugin.so"
+
+permissions = [
+    "ReadConfiguration",
+    "ReadFilesystem",
+]
+
+[metadata]
+id = "example.filesystem"
+name = "Filesystem Plugin Example"
+version = "1.0.0"
+description = "Demonstrates controlled filesystem access from a Conduit plugin."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[configuration]
+enabled = "true"
+root = "~/.config/conduit"
