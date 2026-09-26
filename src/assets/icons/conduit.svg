@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Conduit</title>
+  <path d="M16 20h32v24H16z" stroke="currentColor" stroke-width="4" rx="4"/>
+  <path d="M24 28l6 4-6 4M34 36h8" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <path d="M12 16h40M12 48h40" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+</svg>
