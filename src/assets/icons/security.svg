@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Security</title>
+  <path d="M32 7l22 9v15c0 13-9 23-22 27C19 54 10 44 10 31V16z" stroke="currentColor" stroke-width="4" stroke-linejoin="round"/>
+  <path d="M22 32l7 7 14-15" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+</svg>
