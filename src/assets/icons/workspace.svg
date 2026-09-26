@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <title>Workspace</title>
+  <rect x="9" y="15" width="46" height="36" rx="5" stroke="currentColor" stroke-width="4"/>
+  <path d="M9 26h46M22 15v36M42 15v36" stroke="currentColor" stroke-width="4"/>
+</svg>
