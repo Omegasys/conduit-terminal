@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<component type="desktop-application">
+  <id>org.conduit.Terminal</id>
+
+  <name>Conduit</name>
+  <summary>A terminal built around the flow of information</summary>
+
+  <metadata_license>CC0-1.0</metadata_license>
+  <project_license>GPL-3.0-or-later</project_license>
+
+  <description>
+    <p>
+      Conduit is a modular terminal emulator designed around the flow
+      of information between shells, processes, panes, tabs, windows,
+      workspaces, remote connections, and plugins.
+    </p>
+
+    <p>
+      Conduit provides a shared core across graphical, terminal-based,
+      and command-line interfaces while supporting live configuration,
+      shell integration, workspaces, plugins, recording, search,
+      diagnostics, and security controls.
+    </p>
+
+    <p>
+      Conduit is designed to keep the shell in control of shell behavior
+      while providing additional context and integration around it.
+    </p>
+  </description>
+
+  <launchable type="desktop-id">conduit.desktop</launchable>
+
+  <categories>
+    <category>System</category>
+    <category>Utility</category>
+    <category>ConsoleOnly</category>
+  </categories>
+
+  <keywords>
+    <keyword>terminal</keyword>
+    <keyword>shell</keyword>
+    <keyword>console</keyword>
+    <keyword>ssh</keyword>
+    <keyword>workspace</keyword>
+    <keyword>multiplexer</keyword>
+  </keywords>
+
+  <supports>
+    <control>keyboard</control>
+    <control>pointing</control>
+  </supports>
+
+  <content_rating type="oars-1.1"/>
+
+  <releases>
+    <release version="1.0.0" date="2026-01-01">
+      <description>
+        <p>Initial Conduit release.</p>
+      </description>
+    </release>
+  </releases>
+
+  <url type="homepage">https://github.com/</url>
+  <url type="bugtracker">https://github.com/</url>
+</component>
