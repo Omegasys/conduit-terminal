@@ -1,0 +1,42 @@
+id = "hardened"
+name = "Hardened"
+version = "1.0.0"
+description = "A security-focused profile with restrictive integration defaults."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[theme]
+name = "nord"
+
+[terminal]
+scrollback_lines = 20000
+copy_on_select = false
+confirm_close = true
+bell = false
+audible_bell = false
+
+[shell]
+inherit_environment = false
+login_shell = false
+interactive_shell = true
+
+[ui]
+show_menu = true
+show_toolbar = true
+show_tab_bar = true
+show_sidebar = false
+show_status_bar = true
+
+[security]
+safe_mode = true
+hardened_mode = true
+allow_plugins = false
+allow_hyperlinks = false
+allow_clipboard = false
+allow_filesystem_integration = false
+allow_system_integration = false
+allow_external_commands = false
+confirm_escape_actions = true
+
+[recording]
+enabled = false
