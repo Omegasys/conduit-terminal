@@ -1,0 +1,35 @@
+id = "development"
+name = "Development"
+version = "1.0.0"
+description = "A workspace for software development."
+profile = "development"
+theme = "cyberpunk"
+
+[layout]
+type = "split"
+direction = "horizontal"
+
+[[panes]]
+id = "editor"
+size = 0.65
+working_directory = "~/Projects"
+
+[[panes]]
+id = "terminal"
+size = 0.35
+working_directory = "~/Projects"
+
+[terminal]
+shell = "auto"
+scrollback_lines = 50000
+
+[ui]
+show_sidebar = true
+show_status_bar = true
+show_tab_bar = true
+
+[restore]
+enabled = true
+restore_tabs = true
+restore_panes = true
+restore_working_directories = true
