@@ -1,0 +1,33 @@
+[metadata]
+id = "ssh"
+name = "SSH Integration"
+version = "1.0.0"
+description = "SSH connection and remote-terminal integration for Conduit."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+plugin_type = "Native"
+entrypoint = "libssh.so"
+
+permissions = [
+    "ReadConfiguration",
+    "WriteConfiguration",
+    "ReadFilesystem",
+    "AccessEnvironment",
+    "AccessTerminal",
+    "AccessPanes",
+    "AccessTabs",
+    "AccessSessions",
+    "ExecuteCommands",
+    "Network",
+    "LocalNetwork",
+    "SpawnProcess"
+]
+
+[dependencies]
+conduit = ">=1.0.0"
+
+[configuration]
+enabled = "true"
+known_hosts = "~/.ssh/known_hosts"
+agent_forwarding = "false"
