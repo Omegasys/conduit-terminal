@@ -14,6 +14,7 @@ pub mod live;
 pub mod panes;
 pub mod resources;
 pub mod tabs;
+pub mod modes;
 pub mod tui;
 pub mod windows;
 pub mod workspaces;
