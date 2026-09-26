@@ -1,0 +1,42 @@
+id = "development"
+name = "Development"
+version = "1.0.0"
+description = "A development-oriented profile with expanded terminal integration."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+[theme]
+name = "cyberpunk"
+
+[terminal]
+scrollback_lines = 50000
+copy_on_select = false
+confirm_close = true
+bell = true
+audible_bell = false
+
+[shell]
+inherit_environment = true
+login_shell = false
+interactive_shell = true
+
+[ui]
+show_menu = true
+show_toolbar = true
+show_tab_bar = true
+show_sidebar = true
+show_status_bar = true
+
+[development]
+show_command_duration = true
+show_command_status = true
+show_working_directory = true
+show_git_status = true
+show_diagnostics = true
+
+[security]
+safe_mode = false
+hardened_mode = false
+allow_plugins = true
+allow_hyperlinks = true
+allow_clipboard = true
