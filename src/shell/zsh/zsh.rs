@@ -32,7 +32,7 @@ impl ZshShellAdapter for Zsh {
         capabilities.posix_compatible = CapabilityLevel::Full;
 
         capabilities.programmable_prompt = CapabilityLevel::Full;
-        capabilities.prompt_hooks = CapabilityLevel::Full;
+        capabilities.prompt_hooks = CapabilityLevel::Basic;
         capabilities.command_hooks = CapabilityLevel::Full;
         capabilities.directory_hooks = CapabilityLevel::Full;
 
