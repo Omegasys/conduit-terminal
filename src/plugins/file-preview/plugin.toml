@@ -1,0 +1,26 @@
+[metadata]
+id = "file-preview"
+name = "File Preview"
+version = "1.0.0"
+description = "Provides file previews and metadata for Conduit's file manager."
+author = "Conduit Project"
+license = "GPL-3.0-or-later"
+
+plugin_type = "Native"
+entrypoint = "libfile_preview.so"
+
+permissions = [
+    "ReadConfiguration",
+    "ReadFilesystem",
+    "AccessTerminal",
+    "AccessPanes"
+]
+
+[dependencies]
+conduit = ">=1.0.0"
+
+[configuration]
+enabled = "true"
+max_preview_size = "10485760"
+follow_symlinks = "false"
+show_metadata = "true"
