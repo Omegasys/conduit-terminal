@@ -1,0 +1,41 @@
+id = "remote"
+name = "Remote"
+version = "1.0.0"
+description = "A workspace for remote SSH sessions."
+profile = "ssh"
+theme = "nord"
+
+[layout]
+type = "tabs"
+
+[[sessions]]
+id = "remote-shell"
+type = "ssh"
+name = "Remote Shell"
+
+[[sessions]]
+id = "remote-monitor"
+type = "ssh"
+name = "Remote Monitor"
+
+[terminal]
+shell = "auto"
+scrollback_lines = 20000
+
+[ui]
+show_sidebar = false
+show_status_bar = true
+show_tab_bar = true
+
+[ssh]
+agent_forwarding = false
+x11_forwarding = false
+strict_host_key_checking = true
+keepalive = true
+keepalive_interval_seconds = 30
+
+[restore]
+enabled = true
+restore_tabs = true
+restore_panes = true
+restore_working_directories = true
